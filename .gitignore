@@ -1,0 +1,25 @@
+# Build outputs
+/dist/
+/mac/dist/
+/mac/build/
+*.exe
+*.zip
+*.dmg
+*.msi
+
+# macOS and Windows metadata
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+
+# IDE / editor
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
