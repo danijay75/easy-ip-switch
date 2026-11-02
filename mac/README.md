@@ -13,6 +13,13 @@ adaptées aux services réseau de macOS.
 > d'OpenCode vers macOS, le prompt de reprise et la checklist de tests, lire
 > [`ETAT-DU-PROJET-MACOS.md`](ETAT-DU-PROJET-MACOS.md).
 
+## Téléchargement
+
+Release macOS **v1.1.2** :
+<https://github.com/danijay75/easy-ip-switch/releases/tag/v1.1.2-macos>
+
+Trois DMG sont disponibles : Intel, Apple Silicon et universel.
+
 ## Prérequis
 
 - macOS 12 (Monterey) ou plus récent.

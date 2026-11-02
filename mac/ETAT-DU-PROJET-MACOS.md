@@ -1054,6 +1054,8 @@ validation macOS.
 | Prochaine version macOS | **1.1.2** (langues + sélecteur de drapeaux) |
 | Prochaine release GitHub | **`v1.1.2-macos`**, avec les DMG Intel, Apple Silicon et universel |
 
+Les résultats de cette passe sont décrits dans la section 22 : la version macOS publiée est **1.1.2** et la release est **`v1.1.2-macos`**.
+
 Ne pas déplacer ni réutiliser le tag Windows `v1.1.1`. La release macOS doit
 avoir son propre tag afin que les archives source GitHub correspondent au code
 réellement publié.
