@@ -1,10 +1,12 @@
 # Easy IP-Switch — état du projet et passation vers macOS
 
-**Dernière mise à jour :** 2 novembre 2026  
-**Version du produit :** 1.1.1 (macOS)  
+**Dernière mise à jour :** 2 novembre 2026 (soir)  
+**Version macOS actuelle :** 1.1.1 — prochaine version prévue : **1.1.2**  
+**Version Windows actuelle :** 1.1.1  
 **Projet local Windows :** `P:\Projets IA\Easy IPSwitch`  
+**Dépôt GitHub public :** <https://github.com/danijay75/easy-ip-switch> (licence MIT)  
 **Cible macOS :** macOS 12 (Monterey) ou plus récent, Intel x86_64 et Apple Silicon arm64  
-**Statut général :** source macOS compilée et vérifiée sur macOS 26.6.2 (Apple Silicon) le 2 novembre 2026 ; applications Intel, Apple Silicon et universelle produites en local. Voir la section 20 et `PLAN-ACTION-MACOS.md`.
+**Statut général :** Windows 1.1.1 est publié sur GitHub ; macOS 1.1.1 compile, se signe et se lance, avec le QR code de don et la fenêtre de fermeture. **La prochaine tâche macOS est d’ajouter les quatre langues et le sélecteur de drapeaux, puis de publier une release macOS.** Voir la section 21.
 
 ---
 
@@ -32,20 +34,21 @@ Le projet n'est pas un dépôt Git. Il vit sur pCloud, qui peut produire des fic
 
 | Élément | État |
 |---|---|
-| Application Windows v1.1 | Terminée |
-| Binaire Windows livré | `dist\easy ip-switch v1.1.exe` — 173 568 octets, version `1.1.0.0` |
-| Source macOS SwiftUI | Terminée : 16 fichiers Swift (2 396 lignes) et 4 fichiers de tests (391 lignes) |
+| Application Windows v1.1.1 | Terminée et publiée sur GitHub |
+| Binaire Windows livré | `dist\easy ip-switch v1.1.1.exe` — 262 656 octets, version `1.1.1.0` |
+| Release Windows | GitHub `v1.1.1` avec l’exécutable et son SHA-256 |
+| Source macOS SwiftUI | 17 fichiers Swift (2 691 lignes) et 4 fichiers de tests (392 lignes) |
 | Projet Swift Package | Présent : `mac/Package.swift`, cible de tests incluse |
-| Script de build macOS | Présent : `mac/scripts/build-mac.sh`, version lue dans `Info.plist` |
+| Script de build macOS | Présent : `mac/scripts/build-mac.sh`, version lue dans `Info.plist`, DMG inclus |
 | Info.plist | Valide, version `1.1.1`, minimum macOS `12.0` |
 | Vérifications statiques | Réussies (voir section 7) |
 | Compilation Swift réelle | **Réussie** sur macOS 26.6.2 (Apple Silicon), Swift 6.3.3 |
-| Applications `.app` Intel / Apple Silicon | **Produites** en local, plus la version universelle ; zips dans `mac/dist` |
+| Applications `.app` Intel / Apple Silicon | **Produites** en local, plus la version universelle ; zips et DMG dans `mac/dist` |
 | Tests automatisés | **34 tests** Swift Testing réussis |
-| Blocage actuel | Aucun blocage de compilation ; restent les tests visuels et les écritures réseau réelles |
-| Prochaine action | Exécuter la checklist de `PLAN-ACTION-MACOS.md` (phases A et B) |
+| Interface macOS | **Français uniquement** ; les quatre langues ne sont pas encore portées |
+| Prochaine action | Section 21 : ajouter FR/EN/DE/ES, le sélecteur de drapeaux et publier `v1.1.2-macos` |
 
-**Conclusion :** le portage compile, se signe et se lance sur macOS. La prochaine étape est la **validation visuelle et réseau réelle**, pas une nouvelle étape de développement Windows.
+**Conclusion :** Windows 1.1.1 est publié et le portage macOS compile, se signe et se lance. La prochaine étape est la **parité des langues et la release macOS 1.1.2**, décrites en section 21.
 
 ---
 
@@ -680,6 +683,7 @@ xattr -l "Easy IP-Switch v1.1.1 (Apple Silicon).app"
 | `Sources/EasyIPSwitch/SystemSettings.swift` | Ouverture des Réglages Réseau macOS 12/13+ |
 | `Sources/EasyIPSwitch/AdapterCardModel.swift` | Brouillon, mode, validation, dirty, passerelle automatique |
 | `Sources/EasyIPSwitch/AppModel.swift` | Actualisation, application, activation, test, fusion, vérification |
+| `Sources/EasyIPSwitch/QuitDialog.swift` | Fermeture, QR code de don, lien PayPal |
 | `Sources/EasyIPSwitch/Views/Components.swift` | Boutons, champs, segments, switch, pill, logo |
 | `Sources/EasyIPSwitch/Views/ContentView.swift` | En-tête, onglets, cartes, barre d'état, pied de page |
 | `Sources/EasyIPSwitch/Views/AdapterCardView.swift` | Carte réseau complète et mise en page adaptative |
@@ -698,10 +702,10 @@ xattr -l "Easy IP-Switch v1.1.1 (Apple Silicon).app"
 
 ### Volumétrie
 
-- 16 fichiers Swift d'application : 2 396 lignes ;
-- 4 fichiers de tests : 391 lignes ;
-- 29 fichiers sources dans `mac/` (hors les trois zip de `mac/dist`) ;
-- 371 004 octets pour l'ensemble des sources, tests, scripts, documents et de l'icône.
+- 17 fichiers Swift d'application : 2 691 lignes ;
+- 4 fichiers de tests : 392 lignes ;
+- 31 fichiers sources dans `mac/` (hors `mac/dist`) ;
+- 409 521 octets pour l'ensemble des sources, tests, scripts, documents et assets.
 
 ---
 
@@ -990,7 +994,8 @@ Fichiers alignés sur `1.1.1` :
 | `scripts/build-mac.sh` | version lue depuis `Info.plist` |
 | `Tests/EasyIPSwitchTests/AppInfoTests.swift` | `v1.1.1` |
 
-L'application Windows reste en `1.1` ; seule la version macOS est incrémentée.
+À cette date, l'application Windows était encore en `1.1`. Elle est depuis passée
+en `1.1.1` et publiée sur GitHub ; voir la section 21.
 
 ### 20.10 Fenêtre de fermeture et don
 
@@ -1027,3 +1032,443 @@ Les tests visuels et les écritures réseau réelles n'ont pas encore été exé
 
 Le plan détaillé, les précautions et les décisions à prendre sont dans
 `PLAN-ACTION-MACOS.md`.
+
+---
+
+## 21. Passe du 2 novembre 2026 (soir) — open source, langues et release macOS
+
+Cette section est la référence pour la prochaine session OpenCode sur le Mac.
+Elle complète la section 20, qui décrit la première passe de compilation et de
+validation macOS.
+
+### 21.1 État consolidé
+
+| Élément | État |
+|---|---|
+| Application Windows | **1.1.1** finale : responsive, passerelle automatique, 4 langues, drapeaux, QR de don |
+| Dépôt GitHub | **public**, licence MIT : <https://github.com/danijay75/easy-ip-switch> |
+| Release GitHub Windows | `v1.1.1` : `easy-ip-switch-1.1.1-windows.exe`, 262 656 octets, SHA-256 `18C664A5B3E711FDFE88207F05DDAB52B0BB908A6C4F041BE31073C95A0B1B3A` |
+| Landing page | Mise à jour : <https://angelivisions.com/easy-ip-switch> |
+| Application macOS | **1.1.1** compilée, signée et lancée sur macOS 26.6.2 ; QR de don et fenêtre de fermeture présents |
+| Interface macOS | **Uniquement en français** : la localisation 4 langues n’est pas encore portée |
+| Prochaine version macOS | **1.1.2** (langues + sélecteur de drapeaux) |
+| Prochaine release GitHub | **`v1.1.2-macos`**, avec les DMG Intel, Apple Silicon et universel |
+
+Ne pas déplacer ni réutiliser le tag Windows `v1.1.1`. La release macOS doit
+avoir son propre tag afin que les archives source GitHub correspondent au code
+réellement publié.
+
+### 21.2 Ce qui existe déjà côté macOS
+
+La section 20 donne le détail. Points utiles pour la suite :
+
+- `mac/Package.swift` : cible macOS 12, cible de tests `EasyIPSwitchTests`.
+- `mac/scripts/build-mac.sh` : compilation Intel, Apple Silicon et universelle,
+  assemblage des `.app`, signature ad-hoc, zip et **DMG**.
+- `mac/scripts/test.sh` : tests Swift Testing avec les Command Line Tools.
+- `mac/Sources/EasyIPSwitch/QuitDialog.swift` : fenêtre de fermeture avec QR
+  code, lien PayPal, boutons **Rester** / **Quitter** et variante avec
+  modifications en attente.
+- `mac/assets/donation-qr.png` : QR de don, copié dans
+  `Contents/Resources/donation-qr.png` par le script de build.
+- `mac/Sources/EasyIPSwitch/AdapterCardModel.swift` : validation, brouillons,
+  passerelle suggérée et messages en français.
+- `mac/Sources/EasyIPSwitch/AppModel.swift` : actualisation, application,
+  activation, ping et messages de statut en français.
+- 34 tests automatisés passent.
+- Aucun fichier `Localization.swift` ni sélecteur de langue n’existe encore.
+- `AppInfo.version` et `Info.plist` sont en `1.1.1`.
+
+Les chaînes françaises sont réparties principalement dans :
+
+```text
+Sources/EasyIPSwitch/AppInfo.swift
+Sources/EasyIPSwitch/AppModel.swift
+Sources/EasyIPSwitch/AdapterCardModel.swift
+Sources/EasyIPSwitch/Models.swift
+Sources/EasyIPSwitch/NetworkReader.swift
+Sources/EasyIPSwitch/NetworkWriter.swift
+Sources/EasyIPSwitch/PingRunner.swift
+Sources/EasyIPSwitch/SystemSettings.swift
+Sources/EasyIPSwitch/QuitDialog.swift
+Sources/EasyIPSwitch/Views/ContentView.swift
+Sources/EasyIPSwitch/Views/AdapterCardView.swift
+Sources/EasyIPSwitch/Views/PingView.swift
+Sources/EasyIPSwitch/Views/Components.swift
+```
+
+### 21.3 Objectif fonctionnel macOS
+
+Obtenir la même expérience que Windows 1.1.1 :
+
+1. **Français par défaut** au premier lancement.
+2. Langues disponibles : **français, anglais, allemand, espagnol**.
+3. Changement de langue **immédiat, sans redémarrage**.
+4. Choix mémorisé dans `UserDefaults` et restauré au lancement suivant.
+5. Sélecteur compact **à côté du switch clair/sombre**, avec drapeau + code
+   (`FR`, `EN`, `DE`, `ES`).
+6. Menu déroulant avec **vrais drapeaux** et noms natifs :
+   `Français`, `English`, `Deutsch`, `Español`.
+7. Tous les textes visibles traduits : en-tête, cartes, validation, ping,
+   pied de page, messages de statut, erreurs, fenêtre de fermeture et don.
+8. La mise en page responsive et la passerelle automatique existantes sont
+   conservées.
+
+### 21.4 Architecture de localisation recommandée
+
+Créer `Sources/EasyIPSwitch/Localization.swift` avec :
+
+```swift
+enum AppLanguage: String, CaseIterable, Identifiable {
+    case french = "fr"
+    case english = "en"
+    case german = "de"
+    case spanish = "es"
+
+    var id: String { rawValue }
+    var displayName: String { ... } // Français, English, Deutsch, Español
+    var flagCode: String { ... }    // fr, gb, de, es
+    var locale: Locale { ... }      // fr_FR, en_US, de_DE, es_ES
+}
+
+@MainActor
+final class LanguageStore: ObservableObject {
+    static let shared = LanguageStore()
+    @Published private(set) var current: AppLanguage
+
+    // Charge UserDefaults, français par défaut.
+    // Sauvegarde à chaque changement.
+    // t("texte français") et f("format {0}", args) avec repli français.
+}
+```
+
+Points d’implémentation :
+
+- Clé `UserDefaults` conseillée : `EasyIPSwitch.language`.
+- Si la valeur stockée est absente ou invalide, utiliser `.french`.
+- Les dictionnaires sont indexés par le **texte français source**. Une clé
+  absente dans une langue retombe automatiquement sur le français.
+- `f` doit utiliser `String(format:locale:arguments:)` avec la locale de la
+  langue active pour les nombres.
+- Réutiliser les traductions déjà présentes dans
+  `src/Localization.cs` du dépôt : il contient les 226 clés français → anglais,
+  allemand, espagnol utilisées par Windows. C’est la référence de traduction.
+- Injecter le store dans l’application :
+
+```swift
+@StateObject private var language = LanguageStore()
+
+WindowGroup(...) {
+    ContentView()
+        .environmentObject(model)
+        .environmentObject(theme)
+        .environmentObject(language)
+}
+```
+
+- Dans les vues : `@EnvironmentObject private var language: LanguageStore`,
+  puis `language.t("...")` / `language.f("...", args)`.
+- Dans `AppModel` et `AdapterCardModel`, qui ne sont pas des vues, utiliser
+  `LanguageStore.shared` pour les messages générés. Pour éviter de mélanger
+  deux langues après un changement, ajouter une méthode
+  `languageChanged()` qui efface les messages transitoires et force le
+  recalcul des textes d’état.
+- `QuitDialog` doit recevoir les chaînes traduites au moment de sa création ;
+  ses textes internes de don doivent aussi utiliser `LanguageStore.shared`.
+- `AppInfo.CopyrightLine` doit utiliser `LanguageStore.shared.f(...)`.
+
+### 21.5 Drapeaux et sélecteur
+
+1. Copier les drapeaux depuis le dépôt :
+
+```bash
+mkdir -p mac/assets/flags
+cp assets/flags/fr.png mac/assets/flags/
+cp assets/flags/gb.png mac/assets/flags/
+cp assets/flags/de.png mac/assets/flags/
+cp assets/flags/es.png mac/assets/flags/
+```
+
+2. Dans `mac/scripts/build-mac.sh`, à côté de la copie de `donation-qr.png`,
+   copier les drapeaux dans le bundle :
+
+```bash
+if [ -d "$ROOT/assets/flags" ]; then
+    mkdir -p "$app/Contents/Resources/flags"
+    cp "$ROOT/assets/flags/"*.png "$app/Contents/Resources/flags/"
+fi
+```
+
+3. Charger un drapeau avec le même principe que `DonationQR` :
+
+```swift
+Bundle.main.url(forResource: code, withExtension: "png", subdirectory: "flags")
+```
+
+4. Créer `Views/LanguageSelectorView.swift` :
+
+- `Menu` SwiftUI dans l’en-tête, à gauche de `ThemeSwitch`.
+- Affichage fermé : drapeau 24 × 16 + code (`FR`, `EN`, `DE`, `ES`) + chevron.
+- Menu : `Label` avec drapeau et nom natif ; l’élément actif est en gras.
+- Largeur compacte d’environ 82 points pour tenir à 880 points de large.
+- Accessibilité : libellé « Langue » / description « Changer la langue de
+  l’application ».
+
+5. Ajouter dans `Info.plist` :
+
+```xml
+<key>CFBundleDevelopmentRegion</key>
+<string>fr</string>
+<key>CFBundleLocalizations</key>
+<array>
+    <string>fr</string>
+    <string>en</string>
+    <string>de</string>
+    <string>es</string>
+</array>
+```
+
+### 21.6 Fichiers et textes à traiter
+
+| Fichier | Textes à localiser |
+|---|---|
+| `Views/ContentView.swift` | sous-titre, pastille d’état, bouton Actualiser, onglets, bouton Réglages Réseau, pied de page, états vides |
+| `Views/AdapterCardView.swift` | Carte active, Adresse IP, Masque, Passerelle, DHCP, Adresse fixe, Changer, Annuler, Tester, aides |
+| `Views/PingView.swift` | titre exact « Tester une adresse IP sur le réseau », sous-titre, libellés, Ping, Effacer, journal, états |
+| `QuitDialog.swift` | titre, message, boutons, textes et aides du QR code / don |
+| `AdapterCardModel.swift` | validation IP/masque/passerelle, hints, messages enregistrés, tests |
+| `AppModel.swift` | actualisation, application, activation, erreurs, confirmations |
+| `NetworkReader.swift` / `NetworkWriter.swift` | erreurs de lecture et d’écriture, messages DHCP |
+| `PingRunner.swift` | détails « Réponse en … ms », délais, hôtes inaccessibles |
+| `Models.swift` | libellés de type et d’état des cartes |
+| `AppInfo.swift` | version et ligne de copyright |
+| `EasyIPSwitchApp.swift` | injection du `LanguageStore`, titre de fenêtre |
+| `Info.plist` | versions, région, langues |
+| `Tests/EasyIPSwitchTests` | nouveaux tests de localisation et versions |
+
+Le sélecteur doit rester accessible sur l’onglet **Cartes réseau** comme sur
+l’onglet **Test de ping** ; il fait partie de l’en-tête, pas du contenu des
+cartes.
+
+### 21.7 Version macOS 1.1.2
+
+Pour cette release macOS, incrémenter uniquement la version macOS :
+
+- `Sources/EasyIPSwitch/AppInfo.swift` : `version = "1.1.2"`.
+- `Info.plist` : `CFBundleShortVersionString` et `CFBundleVersion` = `1.1.2`.
+- `Tests/EasyIPSwitchTests/AppInfoTests.swift` : attendre `v1.1.2`.
+- `README.md` macOS et ce document : mentionner `1.1.2`.
+- Le binaire Windows reste en `1.1.1`.
+
+Le tag de release doit être **`v1.1.2-macos`**, pas `v1.1.1`, afin de ne pas
+modifier la release Windows existante et de garder une archive source cohérente.
+
+### 21.8 Tests à ajouter
+
+Créer `Tests/EasyIPSwitchTests/LocalizationTests.swift` et couvrir :
+
+- français par défaut si `UserDefaults` est vide ;
+- chargement d’une langue enregistrée (`en`, `de`, `es`) ;
+- repli français pour une clé inconnue ;
+- traduction d’un texte de chaque écran : en-tête, carte, ping, fermeture ;
+- `f` avec arguments et locale (par exemple un nombre) ;
+- persistance : changer la langue, recréer le store, retrouver la langue ;
+- présence des quatre images de drapeau dans le bundle de test ;
+- non-régression des 34 tests existants.
+
+Commande :
+
+```bash
+cd mac
+bash scripts/test.sh
+```
+
+### 21.9 Construire et vérifier les DMG
+
+```bash
+cd mac
+bash scripts/build-mac.sh --universal
+```
+
+Sorties attendues :
+
+```text
+mac/dist/Easy IP-Switch v1.1.2 (Intel).dmg
+mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).dmg
+mac/dist/Easy IP-Switch v1.1.2 (Universelle).dmg
+mac/dist/Easy IP-Switch v1.1.2 (Intel).zip
+mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).zip
+mac/dist/Easy IP-Switch v1.1.2 (Universelle).zip
+```
+
+Vérifications :
+
+```bash
+file "dist/Easy IP-Switch v1.1.2 (Intel).app/Contents/MacOS/EasyIPSwitch"
+file "dist/Easy IP-Switch v1.1.2 (Apple Silicon).app/Contents/MacOS/EasyIPSwitch"
+lipo -info "dist/Easy IP-Switch v1.1.2 (Universelle).app/Contents/MacOS/EasyIPSwitch"
+
+codesign --verify --deep --strict --verbose=2 "dist/Easy IP-Switch v1.1.2 (Intel).app"
+codesign --verify --deep --strict --verbose=2 "dist/Easy IP-Switch v1.1.2 (Apple Silicon).app"
+codesign --verify --deep --strict --verbose=2 "dist/Easy IP-Switch v1.1.2 (Universelle).app"
+
+hdiutil verify "dist/Easy IP-Switch v1.1.2 (Intel).dmg"
+hdiutil verify "dist/Easy IP-Switch v1.1.2 (Apple Silicon).dmg"
+hdiutil verify "dist/Easy IP-Switch v1.1.2 (Universelle).dmg"
+```
+
+Tester aussi un DMG après montage : glisser l’application, la lancer, vérifier
+le sélecteur de langue et la fenêtre de fermeture.
+
+### 21.10 Publier la release macOS sur GitHub
+
+Se connecter à GitHub sur le Mac :
+
+```bash
+gh auth status
+# si nécessaire :
+gh auth login
+```
+
+Se placer sur la branche `main` à jour, avec le commit des langues :
+
+```bash
+git status
+git pull --ff-only
+```
+
+Créer la release et joindre les trois DMG :
+
+```bash
+gh release create v1.1.2-macos \
+  "mac/dist/Easy IP-Switch v1.1.2 (Intel).dmg" \
+  "mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).dmg" \
+  "mac/dist/Easy IP-Switch v1.1.2 (Universelle).dmg" \
+  --title "Easy IP-Switch v1.1.2 (macOS)" \
+  --notes-file /tmp/easy-ip-switch-v1.1.2-macos.md \
+  --target main
+```
+
+Notes de release à inclure :
+
+- macOS 12 ou plus récent ;
+- trois architectures : Intel, Apple Silicon, universelle ;
+- version 1.1.2 ;
+- quatre langues et sélecteur de drapeaux ;
+- QR code de don dans la fenêtre de fermeture ;
+- signature ad-hoc : Gatekeeper peut demander un clic droit → **Ouvrir** ;
+- SHA-256 des trois DMG.
+
+Calculer les empreintes :
+
+```bash
+shasum -a 256 "mac/dist/Easy IP-Switch v1.1.2 (Intel).dmg" \
+              "mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).dmg" \
+              "mac/dist/Easy IP-Switch v1.1.2 (Universelle).dmg"
+```
+
+Vérifier la release :
+
+```bash
+gh release view v1.1.2-macos
+```
+
+Ne pas ajouter les DMG à la release Windows `v1.1.1`. Si l’équipe veut ensuite
+une version unique `1.1.2` pour Windows et macOS, elle pourra aligner Windows
+et créer un tag commun ; ce n’est pas l’objectif de cette passe.
+
+La landing page <https://angelivisions.com/easy-ip-switch> pointe encore vers
+les DMG 1.1.1. Sa mise à jour est gérée séparément, depuis le dépôt du site
+sur le poste Windows ; la session macOS ne doit pas modifier le site.
+
+### 21.11 Règles Git et confidentialité
+
+- Le dépôt est **public** : ne jamais committer de secret, mot de passe, token,
+  clé privée, adresse IP locale réelle ou donnée personnelle.
+- `mac/dist/` et `mac/build/` sont ignorés par `.gitignore` ; ne pas les forcer.
+- Les DMG et zip sont des **assets de release**, pas des fichiers du dépôt.
+- Travailler sur une branche, par exemple `feature/macos-languages`, puis
+  ouvrir une pull request. Fusionner seulement après tests et build réussis.
+- Les adresses IP des tests doivent rester dans des plages de documentation
+  (`192.0.2.0/24`) ou des exemples génériques.
+
+Workflow conseillé :
+
+```bash
+git clone https://github.com/danijay75/easy-ip-switch.git
+cd easy-ip-switch
+git checkout -b feature/macos-languages
+
+# modifier, tester, construire
+cd mac
+bash scripts/test.sh
+bash scripts/build-mac.sh --universal
+cd ..
+
+git add .
+git commit -m "feat(macos): ajouter les langues et le sélecteur de drapeaux"
+git push -u origin feature/macos-languages
+gh pr create --base main --head feature/macos-languages \
+  --title "macOS : langues FR/EN/DE/ES et release 1.1.2" \
+  --body "Portage des quatre langues, sélecteur avec drapeaux, tests et build DMG."
+```
+
+Après fusion :
+
+```bash
+git checkout main
+git pull --ff-only
+gh release create v1.1.2-macos ... # commande de la section 21.10
+```
+
+### 21.12 Prompt de reprise à coller dans OpenCode sur le Mac
+
+```text
+Tu reprends Easy IP-Switch macOS dans le dépôt public :
+https://github.com/danijay75/easy-ip-switch
+
+Lis d'abord mac/ETAT-DU-PROJET-MACOS.md, en particulier la section 21,
+puis mac/README.md et mac/PLAN-ACTION-MACOS.md.
+
+Objectif : porter sur macOS les quatre langues déjà présentes dans Windows
+(français, anglais, allemand, espagnol), avec un sélecteur de drapeaux dans
+l'en-tête, sans redémarrage. Français par défaut, choix mémorisé. Ensuite,
+construire les DMG Intel, Apple Silicon et universel, puis publier une release
+GitHub macOS 1.1.2.
+
+Contraintes :
+- ne pas modifier le binaire Windows ni sa release v1.1.1 ;
+- ne pas committer mac/dist, mac/build, secrets ou données personnelles ;
+- conserver la mise en page responsive, la passerelle automatique et le QR de don ;
+- utiliser les traductions de src/Localization.cs comme référence ;
+- tester sur le Mac avant de publier ;
+- créer le tag v1.1.2-macos et joindre les trois DMG à la release.
+
+Procède dans cet ordre :
+1. Vérifier Xcode/CLT, swiftc, gh auth status et l'état git.
+2. Créer une branche feature/macos-languages.
+3. Ajouter Localization.swift, LanguageStore, les drapeaux et le sélecteur.
+4. Traduire tous les écrans et messages, puis ajouter les tests.
+5. Passer bash scripts/test.sh.
+6. Passer bash scripts/build-mac.sh --universal.
+7. Vérifier architectures, signatures et DMG.
+8. Fusionner la branche, puis publier v1.1.2-macos avec les trois DMG.
+9. Mettre à jour ce document avec les résultats réels et les SHA-256.
+
+Rapporte : version macOS, résultat des tests, chemins des DMG, résultat de
+codesign/hdiutil, URL de la release et toute erreur restante.
+```
+
+### 21.13 Définition de fin
+
+La passe macOS sera terminée lorsque :
+
+- [ ] Les quatre langues sont disponibles et le français est la langue par défaut.
+- [ ] Le changement de langue est immédiat et persiste après relance.
+- [ ] Le sélecteur avec drapeaux est dans l’en-tête, à côté du thème.
+- [ ] Tous les écrans et messages visibles sont traduits.
+- [ ] Les tests existants et les nouveaux tests de localisation passent.
+- [ ] Les DMG Intel, Apple Silicon et universel sont construits et vérifiés.
+- [ ] La release `v1.1.2-macos` est publiée avec les trois DMG et les SHA-256.
+- [ ] Ce document et `mac/README.md` sont mis à jour avec les résultats réels.
+- [ ] Aucune donnée privée ni binaire n’a été ajouté au dépôt public.
