@@ -1,12 +1,12 @@
 # Easy IP-Switch — état du projet et passation vers macOS
 
 **Dernière mise à jour :** 2 novembre 2026 (soir)  
-**Version macOS actuelle :** 1.1.1 — prochaine version prévue : **1.1.2**  
+**Version macOS actuelle :** 1.1.2 — release **v1.1.2-macos**  
 **Version Windows actuelle :** 1.1.1  
 **Projet local Windows :** `P:\Projets IA\Easy IPSwitch`  
 **Dépôt GitHub public :** <https://github.com/danijay75/easy-ip-switch> (licence MIT)  
 **Cible macOS :** macOS 12 (Monterey) ou plus récent, Intel x86_64 et Apple Silicon arm64  
-**Statut général :** Windows 1.1.1 est publié sur GitHub ; macOS 1.1.1 compile, se signe et se lance, avec le QR code de don et la fenêtre de fermeture. **La prochaine tâche macOS est d’ajouter les quatre langues et le sélecteur de drapeaux, puis de publier une release macOS.** Voir la section 21.
+**Statut général :** Windows 1.1.1 est publié sur GitHub ; macOS **1.1.2** compile, se signe et se lance avec les quatre langues, le sélecteur de drapeaux, le QR code de don et la fenêtre de fermeture. **La release macOS `v1.1.2-macos` est publiée.** Voir la section 22.
 
 ---
 
@@ -46,7 +46,7 @@ Le projet n'est pas un dépôt Git. Il vit sur pCloud, qui peut produire des fic
 | Applications `.app` Intel / Apple Silicon | **Produites** en local, plus la version universelle ; zips et DMG dans `mac/dist` |
 | Tests automatisés | **34 tests** Swift Testing réussis |
 | Interface macOS | **Français uniquement** ; les quatre langues ne sont pas encore portées |
-| Prochaine action | Section 21 : ajouter FR/EN/DE/ES, le sélecteur de drapeaux et publier `v1.1.2-macos` |
+| Prochaine action | Section 22 : résultats de la release macOS 1.1.2 ; prochaine étape éventuelle : validation sur Mac Intel physique et notarisation |
 
 **Conclusion :** Windows 1.1.1 est publié et le portage macOS compile, se signe et se lance. La prochaine étape est la **parité des langues et la release macOS 1.1.2**, décrites en section 21.
 
@@ -1472,3 +1472,88 @@ La passe macOS sera terminée lorsque :
 - [ ] La release `v1.1.2-macos` est publiée avec les trois DMG et les SHA-256.
 - [ ] Ce document et `mac/README.md` sont mis à jour avec les résultats réels.
 - [ ] Aucune donnée privée ni binaire n’a été ajouté au dépôt public.
+
+---
+
+## 22. Passe du 2 novembre 2026 (nuit) — langues et release 1.1.2
+
+Cette section remplace l'objectif de la section 21 par les résultats réels.
+
+### 22.1 Résultat
+
+| Élément | État |
+|---|---|
+| Version macOS | **1.1.2** |
+| Langues | **Français, English, Deutsch, Español** |
+| Langue par défaut | Français |
+| Sélecteur | Drapeau + code dans l'en-tête, à côté du thème |
+| Changement de langue | Immédiat, sans redémarrage |
+| Persistance | `UserDefaults`, clé `EasyIPSwitch.language` |
+| Tests automatisés | **42 tests** Swift Testing, 5 suites, réussis |
+| DMG | Intel, Apple Silicon et universel en `1.1.2` |
+| Release GitHub | **`v1.1.2-macos`** — <https://github.com/danijay75/easy-ip-switch/releases/tag/v1.1.2-macos> |
+
+### 22.2 Fichiers ajoutés ou modifiés
+
+Ajouts :
+
+```text
+Sources/EasyIPSwitch/Localization.swift
+Sources/EasyIPSwitch/LocalizationCatalog.swift
+Sources/EasyIPSwitch/LocalizationExtras.swift
+Sources/EasyIPSwitch/Views/LanguageSelectorView.swift
+Tests/EasyIPSwitchTests/LocalizationTests.swift
+assets/flags/fr.png, gb.png, de.png, es.png
+```
+
+Modifications principales :
+
+- `Info.plist` : version `1.1.2`, `CFBundleLocalizations` fr/en/de/es.
+- `AppInfo.swift` : version `1.1.2`, copyright localisé.
+- `AppModel.swift`, `AdapterCardModel.swift`, `Models.swift`,
+  `NetworkReader.swift`, `NetworkWriter.swift`, `PingRunner.swift` : messages
+  localisés et nettoyage des messages transitoires au changement de langue.
+- `ContentView.swift`, `AdapterCardView.swift`, `PingView.swift`,
+  `Components.swift`, `QuitDialog.swift` : textes et aides localisés ;
+  sélecteur ajouté à l'en-tête.
+- `EasyIPSwitchApp.swift` : injection du `LanguageStore`, messages de fermeture
+  localisés.
+- `scripts/build-mac.sh` : copie des drapeaux dans
+  `Contents/Resources/flags`.
+- `README.md`, `PLAN-ACTION-MACOS.md` : version et langues.
+
+### 22.3 Vérifications
+
+```text
+Test run with 42 tests in 5 suites passed.
+```
+
+- Compilation Intel x86_64, Apple Silicon arm64 et universelle.
+- `codesign --verify --deep --strict` valide sur les trois `.app`.
+- `hdiutil verify` valide sur les trois DMG.
+- DMG universel monté : application `1.1.2`, QR code, drapeaux et helper
+  **Installer sur le Bureau** présents.
+- Interface vérifiée en français, anglais et espagnol ; l'allemand est couvert
+  par les tests de traduction.
+- Le sélecteur reste dans l'en-tête ; le rappel « Autorisation admin. » est
+  masqué sous 940 points pour laisser la place aux drapeaux.
+
+### 22.4 SHA-256 des DMG
+
+```text
+fe7a55393c5f910ca10cc30544ff54895416c41406f4fc87aff071d655b1a6f2  Easy IP-Switch v1.1.2 (Intel).dmg
+92af7f5dd2ada7aeb6610137760070fcf9feb5b70e2b0ffc3df6bc52b97d4806  Easy IP-Switch v1.1.2 (Apple Silicon).dmg
+f18e7f3331bfa4416e381124a455cec301e5caa7eb3198342aec29a4f8cae7dc  Easy IP-Switch v1.1.2 (Universelle).dmg
+```
+
+### 22.5 Publication
+
+La release **`v1.1.2-macos`** contient :
+
+- `Easy IP-Switch v1.1.2 (Intel).dmg` ;
+- `Easy IP-Switch v1.1.2 (Apple Silicon).dmg` ;
+- `Easy IP-Switch v1.1.2 (Universelle).dmg`.
+
+La signature reste ad-hoc : sur un Mac où le DMG a été téléchargé, Gatekeeper
+peut demander un clic droit → **Ouvrir**. La release Windows `v1.1.1` n'a pas
+été modifiée.

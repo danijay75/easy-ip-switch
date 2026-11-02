@@ -6,11 +6,13 @@ struct EasyIPSwitchApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var theme: ThemeState
     @StateObject private var model: AppModel
+    @StateObject private var language: LanguageStore
 
     init() {
         let theme = ThemeState()
         _theme = StateObject(wrappedValue: theme)
         _model = StateObject(wrappedValue: AppModel())
+        _language = StateObject(wrappedValue: LanguageStore.shared)
     }
 
     var body: some Scene {
@@ -18,10 +20,12 @@ struct EasyIPSwitchApp: App {
             ContentView()
                 .environmentObject(model)
                 .environmentObject(theme)
+                .environmentObject(language)
                 .frame(minWidth: 880, minHeight: 620)
                 .onAppear {
                     appDelegate.model = model
                     appDelegate.theme = theme
+                    appDelegate.language = language
                     appDelegate.setupWindowIfNeeded()
                 }
         }
@@ -29,7 +33,7 @@ struct EasyIPSwitchApp: App {
             CommandGroup(replacing: .newItem) { }
 
             CommandGroup(after: .appInfo) {
-                Button("Actualiser les cartes réseau") {
+                Button(L.t("Actualiser les cartes réseau")) {
                     Task { await model.refresh(manual: true) }
                 }
                 .keyboardShortcut("r", modifiers: .command)
@@ -42,6 +46,7 @@ struct EasyIPSwitchApp: App {
 final class AppDelegate: NSObject, NSApplicationDelegate {
     weak var model: AppModel?
     weak var theme: ThemeState?
+    weak var language: LanguageStore?
 
     private var didSetupWindow = false
     private var quitDialog: QuitDialogController?
@@ -97,37 +102,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let dirtyCount = model.cards.filter { $0.isDirty }.count
         let hasPendingChanges = dirtyCount > 0
-        let title = "Quitter Easy IP-Switch ?"
+        let title = L.t("Quitter Easy IP-Switch ?")
         let message: String
         let primaryText: String
         let secondaryText: String?
 
         if hasPendingChanges {
-            if dirtyCount == 1 {
-                message = """
-                Une carte réseau a été modifiée mais la nouvelle configuration n'a pas encore été appliquée.
-
-                Vous pouvez appliquer ces changements avant de fermer, quitter sans les appliquer \
-                (les saisies seront perdues) ou rester dans l'application.
-                """
-            } else {
-                message = """
-                \(dirtyCount) cartes réseau ont été modifiées mais leurs nouvelles configurations n'ont pas encore été appliquées.
-
-                Vous pouvez appliquer ces changements avant de fermer, quitter sans les appliquer \
-                (les saisies seront perdues) ou rester dans l'application.
-                """
-            }
-            primaryText = "Appliquer et quitter"
-            secondaryText = "Quitter sans appliquer"
+            let introduction = dirtyCount == 1
+                ? L.t("Une carte réseau a été modifiée mais la nouvelle configuration n'a pas encore été appliquée.")
+                : L.f("{0} cartes réseau ont été modifiées mais leurs nouvelles configurations n'ont pas encore été appliquées.", dirtyCount)
+            let guidance = L.t("Vous pouvez appliquer ces changements avant de fermer, quitter sans les appliquer (les saisies seront perdues) ou rester dans l'application.")
+            message = introduction + "\n\n" + guidance
+            primaryText = L.t("Appliquer et quitter")
+            secondaryText = L.t("Quitter sans appliquer")
         } else {
-            message = """
-            Aucune modification n'est en attente.
-
-            Merci d'utiliser Easy IP-Switch. Avant de fermer, vous pouvez soutenir le projet : \
-            scannez le QR code ou ouvrez la page de don.
-            """
-            primaryText = "Quitter"
+            message = L.t("Aucune modification n'est en attente.")
+                + "\n\n"
+                + L.t("Merci d'utiliser Easy IP-Switch. Avant de fermer, vous pouvez soutenir le projet : scannez le QR code ou ouvrez la page de don.")
+            primaryText = L.t("Quitter")
             secondaryText = nil
         }
 
@@ -135,11 +127,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let dialog = QuitDialogController(
             theme: theme ?? ThemeState(),
+            language: language ?? LanguageStore.shared,
             title: title,
             message: message,
             primaryText: primaryText,
             secondaryText: secondaryText,
-            stayText: "Rester",
+            stayText: L.t("Rester"),
             hasPendingChanges: hasPendingChanges
         ) { [weak self] choice in
             guard let self = self else { return }

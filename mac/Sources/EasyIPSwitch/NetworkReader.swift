@@ -33,7 +33,7 @@ struct NetworkReader {
             guard isSupported(interfaceType: interfaceType, device: device) else { continue }
 
             let hardware = (SCNetworkInterfaceGetLocalizedDisplayName(interface) as String?)
-                ?? (device.isEmpty ? "Réseau" : device)
+                ?? (device.isEmpty ? L.t("Réseau") : device)
             let kind: AdapterKind
             if interfaceType == (kSCNetworkInterfaceTypeIEEE80211 as String) {
                 kind = .wifi

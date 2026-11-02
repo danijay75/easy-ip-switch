@@ -38,27 +38,47 @@ enum PingRunner {
             let success = statistics.received > 0
             var parts: [String] = []
             if statistics.received > 1 {
-                parts.append("\(statistics.received) paquets reçus sur \(statistics.transmitted)")
+                parts.append(L.f("{0} paquets reçus sur {1}", statistics.received, statistics.transmitted))
             } else {
-                parts.append("\(statistics.received) paquet reçu sur \(statistics.transmitted)")
+                parts.append(L.f("{0} paquet reçu sur {1}", statistics.received, statistics.transmitted))
             }
-            parts.append("\(decimal(statistics.loss, digits: 1)) % de perte")
+            parts.append(L.f("{0} % de perte", L.number(statistics.loss, digits: 1)))
             if let average = statistics.average {
-                parts.append("\(decimal(average, digits: 1)) ms en moyenne")
+                parts.append(L.f("{0} ms en moyenne", L.number(average, digits: 1)))
             }
             return PingOutcome(success: success, detail: parts.joined(separator: " · "), raw: result.output)
         }
 
         if result.status == 0 {
-            return PingOutcome(success: true, detail: "réponse reçue", raw: result.output)
+            return PingOutcome(success: true, detail: L.t("réponse reçue"), raw: result.output)
         }
 
         let diagnostic = result.combined
         return PingOutcome(
             success: false,
-            detail: diagnostic.isEmpty ? "aucune réponse" : lastLine(diagnostic).lowercased(),
+            detail: localizedFailure(diagnostic),
             raw: diagnostic
         )
+    }
+
+    private static func localizedFailure(_ diagnostic: String) -> String {
+        let line = lastLine(diagnostic).lowercased()
+        if line.contains("request timeout") || line.contains("timeout") {
+            return L.t("Délai dépassé")
+        }
+        if line.contains("no route to host") {
+            return L.t("Hôte inaccessible")
+        }
+        if line.contains("unknown host") || line.contains("cannot resolve") {
+            return L.t("Hôte introuvable")
+        }
+        if line.contains("network is unreachable") || line.contains("network unreachable") {
+            return L.t("Réseau inaccessible")
+        }
+        if line.isEmpty || line.contains("no answer") {
+            return L.t("aucune réponse")
+        }
+        return line
     }
 
     static func parse(_ output: String) -> (transmitted: Int, received: Int, loss: Double, average: Double?)? {
@@ -93,10 +113,6 @@ enum PingRunner {
         }
 
         return (transmitted, received, loss, average)
-    }
-
-    private static func decimal(_ value: Double, digits: Int) -> String {
-        return String(format: "%.\(digits)f", value).replacingOccurrences(of: ".", with: ",")
     }
 
     private static func lastLine(_ text: String) -> String {

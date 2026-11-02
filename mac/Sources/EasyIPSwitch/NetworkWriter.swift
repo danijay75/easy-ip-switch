@@ -33,16 +33,16 @@ enum NetworkWriter {
         let lower = text.lowercased()
 
         if lower.contains("cancel") || lower.contains("annul") || lower.contains("-128") {
-            return "Opération annulée : aucune modification n'a été appliquée."
+            return L.t("Opération annulée : aucune modification n'a été appliquée.")
         }
         if lower.contains("not authorized") || lower.contains("authorization")
             || lower.contains("must be root") || lower.contains("administrator privileges") {
-            return "Autorisation refusée : la configuration n'a pas été modifiée."
+            return L.t("Autorisation refusée : la configuration n'a pas été modifiée.")
         }
         if text.isEmpty {
-            return "La commande réseau a échoué (code \(result.status))."
+            return L.f("La commande réseau a échoué (code {0}).", Int(result.status))
         }
-        return "Échec de la commande réseau : \(text)"
+        return L.f("Échec de la commande réseau : {0}", text)
     }
 
     /// networksetup must run as root. Rather than relaunching the whole app,

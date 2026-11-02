@@ -77,24 +77,24 @@ final class AdapterCardModel: ObservableObject, Identifiable {
 
     var hintText: String {
         if !info.enabled {
-            return "Carte désactivée"
+            return L.t("Carte désactivée")
         }
         if mode == .dhcp {
-            return "Adresse attribuée automatiquement par le réseau"
+            return L.t("Adresse attribuée automatiquement par le réseau")
         }
-        return isDirty ? "Configuration fixe en attente" : "Adresse configurée manuellement"
+        return isDirty ? L.t("Configuration fixe en attente") : L.t("Adresse configurée manuellement")
     }
 
     var ipError: String? {
         guard mode == .manual else { return nil }
         guard let value = IPv4.parse(ip) else {
-            return "Adresse IP invalide. Format attendu : 192.168.1.50"
+            return L.t("Adresse IP invalide. Format attendu : 192.168.1.50")
         }
         if IPv4.isForbidden(value) {
-            return "Adresse IP invalide : 0.0.0.0 et 255.255.255.255 sont interdites."
+            return L.t("Adresse IP invalide : 0.0.0.0 et 255.255.255.255 sont interdites.")
         }
         if IPv4.isAPIPA(value) {
-            return "Adresse 169.254.x.x réservée au réseau local : choisissez une autre adresse."
+            return L.t("Adresse 169.254.x.x réservée au réseau local : choisissez une autre adresse.")
         }
         return nil
     }
@@ -102,10 +102,10 @@ final class AdapterCardModel: ObservableObject, Identifiable {
     var maskError: String? {
         guard mode == .manual else { return nil }
         guard let value = IPv4.parse(mask) else {
-            return "Masque invalide. Format attendu : 255.255.255.0"
+            return L.t("Masque invalide. Format attendu : 255.255.255.0")
         }
         if !IPv4.isValidMask(value) {
-            return "Masque non contigu : utilisez par exemple 255.255.255.0 ou 255.255.0.0."
+            return L.t("Masque non contigu : utilisez par exemple 255.255.255.0 ou 255.255.0.0.")
         }
         return nil
     }
@@ -115,15 +115,15 @@ final class AdapterCardModel: ObservableObject, Identifiable {
         let value = router.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !value.isEmpty else { return nil }
         guard let gateway = IPv4.parse(value) else {
-            return "Passerelle invalide. Format attendu : 192.168.1.1"
+            return L.t("Passerelle invalide. Format attendu : 192.168.1.1")
         }
         guard let address = IPv4.parse(ip) else { return nil }
         if gateway == address {
-            return "La passerelle doit être différente de l'adresse IP."
+            return L.t("La passerelle doit être différente de l'adresse IP.")
         }
         if let netmask = IPv4.parse(mask), IPv4.isValidMask(netmask),
            (gateway & netmask) != (address & netmask) {
-            return "La passerelle n'est pas dans le sous-réseau \(IPv4.format(address & netmask))."
+            return L.f("La passerelle n'est pas dans le sous-réseau {0}.", IPv4.format(address & netmask))
         }
         return nil
     }
@@ -140,13 +140,13 @@ final class AdapterCardModel: ObservableObject, Identifiable {
             return CardMessage(text: issue.message, kind: .error)
         }
         if isDirty, messageKind != .warning, messageKind != .error {
-            return CardMessage(text: "Modification non appliquée", kind: .warning)
+            return CardMessage(text: L.t("Modification non appliquée"), kind: .warning)
         }
         if !message.isEmpty {
             return CardMessage(text: message, kind: messageKind)
         }
         if isDirty {
-            return CardMessage(text: "Modification non appliquée", kind: .warning)
+            return CardMessage(text: L.t("Modification non appliquée"), kind: .warning)
         }
         return nil
     }
@@ -239,6 +239,12 @@ final class AdapterCardModel: ObservableObject, Identifiable {
     func clearMessage() {
         message = ""
         messageKind = .info
+    }
+
+    /// Clears the stored message so the next render uses the new language.
+    /// Field errors and hints are computed and translate themselves.
+    func languageChanged() {
+        clearMessage()
     }
 
     /// Keeps the gateway aligned with the subnet while it is empty or still

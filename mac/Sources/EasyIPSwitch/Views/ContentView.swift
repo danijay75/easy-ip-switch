@@ -5,6 +5,7 @@ import Combine
 struct ContentView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var theme: ThemeState
+    @EnvironmentObject private var language: LanguageStore
 
     private let refreshTimer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
 
@@ -38,12 +39,18 @@ struct ContentView: View {
         .onReceive(refreshTimer) { _ in
             Task { await model.autoRefresh() }
         }
+        .onChange(of: language.current) { _ in
+            model.languageChanged()
+        }
     }
 }
 
 struct HeaderView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var theme: ThemeState
+    @EnvironmentObject private var language: LanguageStore
+
+    @State private var measuredWidth: CGFloat = 1000
 
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
@@ -61,7 +68,7 @@ struct HeaderView: View {
                         .foregroundColor(theme.palette.textMuted)
                 }
 
-                Text("Changement d'adresse IP en quelques clics")
+                Text(language.t("Changement d'adresse IP en quelques clics"))
                     .font(.system(size: 12.5))
                     .foregroundColor(theme.palette.textMuted)
                     .lineLimit(1)
@@ -69,24 +76,37 @@ struct HeaderView: View {
 
             Spacer(minLength: 12)
 
+            LanguageSelectorView()
+
             ThemeSwitch()
 
-            StatusPill(
-                icon: "lock.shield.fill",
-                text: "Autorisation admin.",
-                tint: theme.palette.accent,
-                soft: theme.palette.accentSoft
-            )
-            .help("Les modifications réseau demandent l'autorisation de macOS. La lecture reste sans privilège.")
+            if measuredWidth >= 940 {
+                StatusPill(
+                    icon: "lock.shield.fill",
+                    text: language.t("Autorisation admin."),
+                    tint: theme.palette.accent,
+                    soft: theme.palette.accentSoft
+                )
+                .help(language.t("Les modifications réseau demandent l'autorisation de macOS. La lecture reste sans privilège."))
+            }
 
-            FlatButton("Actualiser", icon: "arrow.clockwise", kind: .secondary, enabled: !model.loading && !model.isBusy) {
+            FlatButton(language.t("Actualiser"), icon: "arrow.clockwise", kind: .secondary, enabled: !model.loading && !model.isBusy) {
                 Task { await model.refresh(manual: true) }
             }
-            .help("Mettre à jour la liste et l'état des cartes réseau (⌘R)")
+            .help(language.t("Mettre à jour la liste et l'état des cartes réseau (⌘R)"))
         }
         .padding(.horizontal, 28)
         .padding(.vertical, 14)
         .frame(maxWidth: .infinity)
+        .background(
+            GeometryReader { proxy in
+                Color.clear
+                    .onAppear { measuredWidth = proxy.size.width }
+                    .onChange(of: proxy.size.width) { width in
+                        measuredWidth = width
+                    }
+            }
+        )
         .background(theme.palette.surface)
         .overlay(
             Rectangle()
@@ -100,16 +120,17 @@ struct HeaderView: View {
 struct TabBarView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var theme: ThemeState
+    @EnvironmentObject private var language: LanguageStore
 
     var body: some View {
         HStack(spacing: 28) {
-            tab("Cartes réseau", tab: .cards)
-            tab("Test de ping", tab: .ping)
+            tab(language.t("Cartes réseau"), tab: .cards)
+            tab(language.t("Test de ping"), tab: .ping)
             Spacer()
-            FlatButton("Réglages Réseau", icon: "network", kind: .secondary) {
+            FlatButton(language.t("Réglages Réseau"), icon: "network", kind: .secondary) {
                 SystemSettings.openNetwork()
             }
-            .help("Ouvrir les Réglages Réseau de macOS")
+            .help(language.t("Ouvrir les Réglages Réseau de macOS"))
         }
         .padding(.horizontal, 28)
         .frame(maxWidth: .infinity)
@@ -148,6 +169,7 @@ struct TabBarView: View {
 struct CardsView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var theme: ThemeState
+    @EnvironmentObject private var language: LanguageStore
 
     var body: some View {
         ScrollView {
@@ -157,7 +179,7 @@ struct CardsView: View {
                         HStack(spacing: 12) {
                             ProgressView()
                                 .controlSize(.small)
-                            Text("Recherche des cartes réseau…")
+                            Text(language.t("Recherche des cartes réseau…"))
                                 .font(.system(size: 13))
                                 .foregroundColor(theme.palette.textMuted)
                         }
@@ -165,14 +187,14 @@ struct CardsView: View {
                 } else if model.cards.isEmpty {
                     emptyCard {
                         VStack(spacing: 10) {
-                            Text("Aucune carte réseau détectée.")
+                            Text(language.t("Aucune carte réseau détectée."))
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(theme.palette.text)
-                            Text("Vérifiez les réglages Réseau de macOS, puis cliquez sur Actualiser.")
+                            Text(language.t("Vérifiez les réglages Réseau de macOS, puis cliquez sur Actualiser."))
                                 .font(.system(size: 12.5))
                                 .foregroundColor(theme.palette.textMuted)
                                 .multilineTextAlignment(.center)
-                            FlatButton("Actualiser", icon: "arrow.clockwise", kind: .secondary) {
+                            FlatButton(language.t("Actualiser"), icon: "arrow.clockwise", kind: .secondary) {
                                 Task { await model.refresh(manual: true) }
                             }
                             .padding(.top, 4)
@@ -244,6 +266,7 @@ struct StatusBarView: View {
 
 struct FooterView: View {
     @EnvironmentObject private var theme: ThemeState
+    @EnvironmentObject private var language: LanguageStore
 
     var body: some View {
         VStack(spacing: 0) {
@@ -265,7 +288,7 @@ struct FooterView: View {
                     .font(.system(size: 11.5))
                     .foregroundColor(theme.palette.textFaint)
 
-                Link("Faire un don", destination: AppInfo.donationURL)
+                Link(language.t("Faire un don"), destination: AppInfo.donationURL)
                     .font(.system(size: 11.5, weight: .semibold))
                     .foregroundColor(theme.palette.accent)
             }

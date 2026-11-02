@@ -137,7 +137,7 @@ struct ThemeSwitch: View {
         .padding(3)
         .background(Capsule().fill(theme.palette.surfaceSunken))
         .overlay(Capsule().stroke(theme.palette.border, lineWidth: 1))
-        .help("Basculer entre le thème clair et sombre")
+        .help(L.t("Basculer entre le thème clair et sombre"))
     }
 
     private func segment(icon: String, selected: Bool, action: @escaping () -> Void) -> some View {
@@ -237,7 +237,7 @@ struct ModeSegment: View {
     var body: some View {
         HStack(spacing: 4) {
             item("DHCP", value: .dhcp)
-            item("Adresse fixe", value: .manual)
+            item(L.t("Adresse fixe"), value: .manual)
         }
         .padding(4)
         .background(
@@ -305,7 +305,7 @@ struct CardSwitch: View {
         .disabled(!enabled)
         .opacity(enabled ? 1 : 0.55)
         .animation(.easeInOut(duration: 0.16), value: isOn)
-        .help(Text(isOn ? "Désactiver le service réseau" : "Activer le service réseau"))
+        .help(Text(isOn ? L.t("Désactiver le service réseau") : L.t("Activer le service réseau")))
     }
 }
 
