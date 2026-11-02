@@ -2,11 +2,11 @@
 
 **Dernière mise à jour :** 2 novembre 2026 (soir)  
 **Version macOS actuelle :** 1.1.2 — release **v1.1.2-macos**  
-**Version Windows actuelle :** 1.1.1  
+**Version Windows actuelle :** 1.1.2 — release **v1.1.2**  
 **Projet local Windows :** `P:\Projets IA\Easy IPSwitch`  
 **Dépôt GitHub public :** <https://github.com/danijay75/easy-ip-switch> (licence MIT)  
 **Cible macOS :** macOS 12 (Monterey) ou plus récent, Intel x86_64 et Apple Silicon arm64  
-**Statut général :** Windows 1.1.1 est publié sur GitHub ; macOS **1.1.2** compile, se signe et se lance avec les quatre langues, le sélecteur de drapeaux, le QR code de don et la fenêtre de fermeture. **La release macOS `v1.1.2-macos` est publiée.** Voir la section 22.
+**Statut général :** Windows **1.1.2** est publié sur GitHub ; macOS **1.1.2** compile, se signe et se lance avec les quatre langues, le sélecteur de drapeaux, le QR code de don et la fenêtre de fermeture. **Les releases `v1.1.2` (Windows) et `v1.1.2-macos` (macOS) sont publiées.** Voir la section 22.
 
 ---
 
@@ -34,21 +34,21 @@ Le projet n'est pas un dépôt Git. Il vit sur pCloud, qui peut produire des fic
 
 | Élément | État |
 |---|---|
-| Application Windows v1.1.1 | Terminée et publiée sur GitHub |
-| Binaire Windows livré | `dist\easy ip-switch v1.1.1.exe` — 262 656 octets, version `1.1.1.0` |
-| Release Windows | GitHub `v1.1.1` avec l’exécutable et son SHA-256 |
-| Source macOS SwiftUI | 17 fichiers Swift (2 691 lignes) et 4 fichiers de tests (392 lignes) |
+| Application Windows v1.1.2 | Terminée et publiée sur GitHub |
+| Binaire Windows livré | `dist\easy ip-switch v1.1.2.exe` — 262 656 octets, version `1.1.2.0` |
+| Release Windows | GitHub `v1.1.2` avec l’exécutable et son SHA-256 |
+| Source macOS SwiftUI | 21 fichiers Swift (3 287 lignes) et 5 fichiers de tests (489 lignes) |
 | Projet Swift Package | Présent : `mac/Package.swift`, cible de tests incluse |
 | Script de build macOS | Présent : `mac/scripts/build-mac.sh`, version lue dans `Info.plist`, DMG inclus |
-| Info.plist | Valide, version `1.1.1`, minimum macOS `12.0` |
+| Info.plist | Valide, version `1.1.2`, minimum macOS `12.0` |
 | Vérifications statiques | Réussies (voir section 7) |
 | Compilation Swift réelle | **Réussie** sur macOS 26.6.2 (Apple Silicon), Swift 6.3.3 |
 | Applications `.app` Intel / Apple Silicon | **Produites** en local, plus la version universelle ; zips et DMG dans `mac/dist` |
-| Tests automatisés | **34 tests** Swift Testing réussis |
-| Interface macOS | **Français uniquement** ; les quatre langues ne sont pas encore portées |
-| Prochaine action | Section 22 : résultats de la release macOS 1.1.2 ; prochaine étape éventuelle : validation sur Mac Intel physique et notarisation |
+| Tests automatisés | **42 tests** Swift Testing réussis |
+| Interface macOS | **Quatre langues** et sélecteur de drapeaux, release `v1.1.2-macos` publiée |
+| Prochaine action | Les deux releases 1.1.2 sont publiées ; prochaine étape éventuelle : validation sur Mac Intel physique et notarisation |
 
-**Conclusion :** Windows 1.1.1 est publié et le portage macOS compile, se signe et se lance. La prochaine étape est la **parité des langues et la release macOS 1.1.2**, décrites en section 21.
+**Conclusion :** Windows 1.1.2 et macOS 1.1.2 sont publiés. Les langues, le sélecteur de drapeaux, le QR de don et les DMG macOS sont en place.
 
 ---
 
@@ -1045,24 +1045,25 @@ validation macOS.
 
 | Élément | État |
 |---|---|
-| Application Windows | **1.1.1** finale : responsive, passerelle automatique, 4 langues, drapeaux, QR de don |
+| Application Windows | **1.1.2** finale : responsive, passerelle automatique, 4 langues, drapeaux, QR de don |
 | Dépôt GitHub | **public**, licence MIT : <https://github.com/danijay75/easy-ip-switch> |
-| Release GitHub Windows | `v1.1.1` : `easy-ip-switch-1.1.1-windows.exe`, 262 656 octets, SHA-256 `18C664A5B3E711FDFE88207F05DDAB52B0BB908A6C4F041BE31073C95A0B1B3A` |
-| Landing page | Mise à jour : <https://angelivisions.com/easy-ip-switch> |
-| Application macOS | **1.1.1** compilée, signée et lancée sur macOS 26.6.2 ; QR de don et fenêtre de fermeture présents |
-| Interface macOS | **Uniquement en français** : la localisation 4 langues n’est pas encore portée |
-| Prochaine version macOS | **1.1.2** (langues + sélecteur de drapeaux) |
-| Prochaine release GitHub | **`v1.1.2-macos`**, avec les DMG Intel, Apple Silicon et universel |
+| Release GitHub Windows | `v1.1.2` : `easy-ip-switch-1.1.2-windows.exe`, 262 656 octets, SHA-256 `D71747E109DA2863BC66E75E66B1684609EC23DA7BEDBFE21965CBBC92DE52D5` |
+| Landing page | Mise à jour en 1.1.2 : <https://angelivisions.com/easy-ip-switch> |
+| Application macOS | **1.1.2** compilée, signée et lancée sur macOS 26.6.2 ; quatre langues, drapeaux, QR de don |
+| Interface macOS | **Quatre langues** avec sélecteur de drapeaux |
+| Release GitHub macOS | **`v1.1.2-macos`**, avec les DMG Intel, Apple Silicon et universel |
 
-Les résultats de cette passe sont décrits dans la section 22 : la version macOS publiée est **1.1.2** et la release est **`v1.1.2-macos`**.
+Les résultats de cette passe sont décrits dans la section 22 : la version macOS
+publiée est **1.1.2** et la release est **`v1.1.2-macos`**.
 
-Ne pas déplacer ni réutiliser le tag Windows `v1.1.1`. La release macOS doit
-avoir son propre tag afin que les archives source GitHub correspondent au code
-réellement publié.
+Les tags `v1.1.2` (Windows) et `v1.1.2-macos` (macOS) sont séparés afin que les
+archives source GitHub correspondent au code réellement publié sur chaque
+plateforme.
 
-### 21.2 Ce qui existe déjà côté macOS
+### 21.2 Ce qui existait côté macOS avant la passe 22
 
-La section 20 donne le détail. Points utiles pour la suite :
+La section 20 donne le détail. Cette sous-section décrit le point de départ
+avant l’ajout des langues ; la section 22 documente la réalisation effective.
 
 - `mac/Package.swift` : cible macOS 12, cible de tests `EasyIPSwitchTests`.
 - `mac/scripts/build-mac.sh` : compilation Intel, Apple Silicon et universelle,
@@ -1101,7 +1102,7 @@ Sources/EasyIPSwitch/Views/Components.swift
 
 ### 21.3 Objectif fonctionnel macOS
 
-Obtenir la même expérience que Windows 1.1.1 :
+Obtenir la même expérience que Windows 1.1.2 :
 
 1. **Français par défaut** au premier lancement.
 2. Langues disponibles : **français, anglais, allemand, espagnol**.
@@ -1375,9 +1376,9 @@ Vérifier la release :
 gh release view v1.1.2-macos
 ```
 
-Ne pas ajouter les DMG à la release Windows `v1.1.1`. Si l’équipe veut ensuite
-une version unique `1.1.2` pour Windows et macOS, elle pourra aligner Windows
-et créer un tag commun ; ce n’est pas l’objectif de cette passe.
+Ne pas ajouter les DMG à la release Windows `v1.1.2`. Les deux plateformes ont
+désormais leur release 1.1.2 séparée ; un tag commun pourra être envisagé plus
+tard si l’équipe veut unifier les deux publications.
 
 La landing page <https://angelivisions.com/easy-ip-switch> pointe encore vers
 les DMG 1.1.1. Sa mise à jour est gérée séparément, depuis le dépôt du site
@@ -1439,7 +1440,7 @@ construire les DMG Intel, Apple Silicon et universel, puis publier une release
 GitHub macOS 1.1.2.
 
 Contraintes :
-- ne pas modifier le binaire Windows ni sa release v1.1.1 ;
+- ne pas modifier le binaire Windows ni sa release v1.1.2 ;
 - ne pas committer mac/dist, mac/build, secrets ou données personnelles ;
 - conserver la mise en page responsive, la passerelle automatique et le QR de don ;
 - utiliser les traductions de src/Localization.cs comme référence ;
@@ -1557,5 +1558,5 @@ La release **`v1.1.2-macos`** contient :
 - `Easy IP-Switch v1.1.2 (Universelle).dmg`.
 
 La signature reste ad-hoc : sur un Mac où le DMG a été téléchargé, Gatekeeper
-peut demander un clic droit → **Ouvrir**. La release Windows `v1.1.1` n'a pas
-été modifiée.
+peut demander un clic droit → **Ouvrir**. La release Windows `v1.1.2` est
+publiée séparément, avec l’exécutable Windows 1.1.2.
