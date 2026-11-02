@@ -95,6 +95,11 @@ assemble_app() {
         cp "$ROOT/assets/donation-qr.png" "$app/Contents/Resources/donation-qr.png"
     fi
 
+    if [ -d "$ROOT/assets/flags" ]; then
+        mkdir -p "$app/Contents/Resources/flags"
+        cp "$ROOT/assets/flags/"*.png "$app/Contents/Resources/flags/"
+    fi
+
     # Remove Finder/resource metadata that can make codesign fail, especially
     # when the project is built from a synced or external volume.
     /usr/bin/xattr -cr "$app" 2>/dev/null || true

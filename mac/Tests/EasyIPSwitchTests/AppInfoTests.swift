@@ -6,8 +6,8 @@ struct AppInfoTests {
     @Test("Version affichée")
     func version() {
         #expect(AppInfo.productName == "Easy IP-Switch")
-        #expect(AppInfo.version == "1.1.1")
-        #expect(AppInfo.versionLabel == "v1.1.1")
+        #expect(AppInfo.version == "1.1.2")
+        #expect(AppInfo.versionLabel == "v1.1.2")
     }
 
     @Test("Liens du pied de page")

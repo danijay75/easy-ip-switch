@@ -36,6 +36,7 @@ enum DonationQR {
 
 struct QuitDialogView: View {
     @EnvironmentObject private var theme: ThemeState
+    @EnvironmentObject private var language: LanguageStore
 
     let title: String
     let message: String
@@ -97,7 +98,7 @@ struct QuitDialogView: View {
 
     private var donationPanel: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Soutenir Easy IP-Switch")
+            Text(language.t("Soutenir Easy IP-Switch"))
                 .font(.system(size: 12, weight: .semibold))
                 .foregroundColor(palette.text)
 
@@ -124,11 +125,11 @@ struct QuitDialogView: View {
                         )
                 }
                 .buttonStyle(.plain)
-                .help("Ouvrir la page de don PayPal")
-                .accessibilityLabel("QR code pour faire un don")
+                .help(language.t("Ouvrir la page de don PayPal"))
+                .accessibilityLabel(language.t("QR code pour faire un don"))
             }
 
-            Button("Ouvrir la page de don") {
+            Button(language.t("Ouvrir la page de don")) {
                 openDonation()
             }
             .buttonStyle(.plain)
@@ -140,9 +141,9 @@ struct QuitDialogView: View {
 
     private var donationHint: String {
         if DonationQR.image != nil {
-            return "Scannez ce QR code ou cliquez dessus pour faire un don via PayPal."
+            return language.t("Scannez ce QR code ou cliquez dessus pour faire un don via PayPal.")
         }
-        return "Ouvrez la page de don ci-dessous pour soutenir le projet."
+        return language.t("Ouvrez la page de don ci-dessous pour soutenir le projet.")
     }
 
     private var buttons: some View {
@@ -196,6 +197,7 @@ final class QuitDialogController: NSWindowController, NSWindowDelegate {
 
     init(
         theme: ThemeState,
+        language: LanguageStore,
         title: String,
         message: String,
         primaryText: String,
@@ -229,6 +231,7 @@ final class QuitDialogController: NSWindowController, NSWindowDelegate {
             }
         )
         .environmentObject(theme)
+        .environmentObject(language)
 
         let hosting = NSHostingView(rootView: view)
         hosting.frame = NSRect(x: 0, y: 0, width: 760, height: 440)

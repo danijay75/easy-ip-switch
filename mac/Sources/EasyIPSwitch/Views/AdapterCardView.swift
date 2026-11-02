@@ -3,6 +3,7 @@ import SwiftUI
 struct AdapterCardView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var theme: ThemeState
+    @EnvironmentObject private var language: LanguageStore
     @ObservedObject var card: AdapterCardModel
 
     /// Card width measured by the background geometry reader. The card uses a
@@ -135,7 +136,7 @@ struct AdapterCardView: View {
             CardSwitch(isOn: card.info.enabled, enabled: !card.busy) {
                 Task { await model.setEnabled(card, !card.info.enabled) }
             }
-            Text("Carte active")
+            Text(language.t("Carte active"))
                 .font(.system(size: 12.5))
                 .foregroundColor(palette.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
@@ -207,7 +208,7 @@ struct AdapterCardView: View {
 
     private var ipField: some View {
         LabeledField(
-            label: "Adresse IP",
+            label: language.t("Adresse IP"),
             text: textBinding(\.ip),
             placeholder: "192.168.1.50",
             invalid: card.showErrors && card.ipError != nil,
@@ -217,7 +218,7 @@ struct AdapterCardView: View {
 
     private var maskField: some View {
         LabeledField(
-            label: "Masque",
+            label: language.t("Masque"),
             text: textBinding(\.mask),
             placeholder: "255.255.255.0",
             invalid: card.showErrors && card.maskError != nil,
@@ -227,7 +228,7 @@ struct AdapterCardView: View {
 
     private var gatewayField: some View {
         LabeledField(
-            label: "Passerelle",
+            label: language.t("Passerelle"),
             text: textBinding(\.router),
             placeholder: "192.168.1.1",
             invalid: card.showErrors && card.routerError != nil,
@@ -245,7 +246,7 @@ struct AdapterCardView: View {
             Spacer(minLength: 0)
 
             FlatButton(
-                "Tester",
+                language.t("Tester"),
                 kind: .secondary,
                 enabled: card.info.enabled && !card.busy && !card.testAddress.isEmpty
             ) {
@@ -253,7 +254,7 @@ struct AdapterCardView: View {
             }
 
             FlatButton(
-                "Annuler",
+                language.t("Annuler"),
                 kind: .ghost,
                 enabled: card.isDirty && !card.busy
             ) {
@@ -261,7 +262,7 @@ struct AdapterCardView: View {
             }
 
             FlatButton(
-                "Changer",
+                language.t("Changer"),
                 kind: .primary,
                 enabled: card.isDirty && !card.busy && card.info.enabled
             ) {

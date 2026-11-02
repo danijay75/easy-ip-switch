@@ -5,12 +5,13 @@ import Combine
 struct PingView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var theme: ThemeState
+    @EnvironmentObject private var language: LanguageStore
 
     @State private var selectedID = ""
     @State private var target = ""
     @State private var targetInvalid = false
     @State private var running = false
-    @State private var stateText = "Aucun test lancé pour le moment."
+    @State private var stateText = L.t("Aucun test lancé pour le moment.")
     @State private var stateKind: MessageKind = .info
     @State private var entries: [PingLogEntry] = []
 
@@ -23,18 +24,18 @@ struct PingView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Text("Tester une adresse IP sur le réseau")
+                Text(language.t("Tester une adresse IP sur le réseau"))
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(theme.palette.text)
 
-                Text("Choisissez la carte qui doit envoyer le test, puis saisissez une adresse IPv4 à joindre.")
+                Text(language.t("Choisissez la carte qui doit envoyer le test, puis saisissez une adresse IPv4 à joindre."))
                     .font(.system(size: 12.5))
                     .foregroundColor(theme.palette.textMuted)
                     .padding(.top, 4)
 
                 HStack(alignment: .bottom, spacing: 14) {
                     VStack(alignment: .leading, spacing: 7) {
-                        Text("Carte réseau (source)")
+                        Text(language.t("Carte réseau (source)"))
                             .font(.system(size: 12))
                             .foregroundColor(theme.palette.textMuted)
 
@@ -43,9 +44,9 @@ struct PingView: View {
                     .frame(maxWidth: .infinity)
 
                     LabeledField(
-                        label: "Adresse IPv4 à tester",
+                        label: language.t("Adresse IPv4 à tester"),
                         text: $target,
-                        placeholder: "ex. 192.168.1.1",
+                        placeholder: language.t("ex. 192.168.1.1"),
                         invalid: targetInvalid,
                         enabled: !running
                     )
@@ -53,7 +54,7 @@ struct PingView: View {
                     .onSubmit { startPing() }
 
                     FlatButton(
-                        "Ping",
+                        language.t("Ping"),
                         kind: .primary,
                         enabled: !running && !selectableAdapters.isEmpty
                     ) {
@@ -63,15 +64,15 @@ struct PingView: View {
                 .padding(.top, 20)
 
                 HStack(spacing: 10) {
-                    Text("Journal des tests")
+                    Text(language.t("Journal des tests"))
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(theme.palette.textMuted)
 
                     Spacer()
 
-                    FlatButton("Effacer", kind: .ghost, enabled: !running) {
+                    FlatButton(language.t("Effacer"), kind: .ghost, enabled: !running) {
                         entries.removeAll()
-                        setState("Journal effacé.", .info)
+                        setState(language.t("Journal effacé."), .info)
                     }
                 }
                 .padding(.top, 22)
@@ -108,8 +109,12 @@ struct PingView: View {
         .onChange(of: target) { _ in
             targetInvalid = false
             if stateKind == .error {
-                setState("Aucun test lancé pour le moment.", .info)
+                setState(language.t("Aucun test lancé pour le moment."), .info)
             }
+        }
+        .onChange(of: language.current) { _ in
+            entries.removeAll()
+            setState(L.t("Aucun test lancé pour le moment."), .info)
         }
     }
 
@@ -124,7 +129,7 @@ struct PingView: View {
     private var adapterMenu: some View {
         Menu {
             if selectableAdapters.isEmpty {
-                Text("Aucune carte avec adresse IPv4")
+                Text(language.t("Aucune carte avec adresse IPv4"))
             } else {
                 ForEach(selectableAdapters) { card in
                     Button {
@@ -133,7 +138,7 @@ struct PingView: View {
                             prefillTarget()
                         }
                     } label: {
-                        Text("\(card.info.serviceName) — \(card.info.ip) (\(card.info.dhcp ? "DHCP" : "fixe"))")
+                        Text("\(card.info.serviceName) — \(card.info.ip) (\(card.info.dhcp ? "DHCP" : language.t("(fixe)")))")
                     }
                 }
             }
@@ -166,9 +171,9 @@ struct PingView: View {
 
     private var selectedLabel: String {
         guard let card = selectedAdapter else {
-            return "Aucune carte avec adresse IPv4"
+            return language.t("Aucune carte avec adresse IPv4")
         }
-        return "\(card.info.serviceName) — \(card.info.ip) (\(card.info.dhcp ? "DHCP" : "fixe"))"
+        return "\(card.info.serviceName) — \(card.info.ip) (\(card.info.dhcp ? "DHCP" : language.t("(fixe)")))"
     }
 
     private var logView: some View {
@@ -176,7 +181,7 @@ struct PingView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 6) {
                     if entries.isEmpty {
-                        Text("Les résultats des tests apparaîtront ici.")
+                        Text(language.t("Les résultats des tests apparaîtront ici."))
                             .font(.system(size: 12))
                             .foregroundColor(theme.palette.textFaint)
                     } else {
@@ -231,36 +236,38 @@ struct PingView: View {
         guard !running else { return }
 
         guard let card = selectedAdapter else {
-            setState("Aucune carte réseau avec une adresse IPv4 n'est disponible.", .error)
+            setState(language.t("Aucune carte réseau avec une adresse IPv4 n'est disponible."), .error)
             return
         }
 
         let address = target.trimmingCharacters(in: .whitespacesAndNewlines)
         guard let parsed = IPv4.parse(address), !IPv4.isForbidden(parsed) else {
             targetInvalid = true
-            setState("Adresse invalide : utilisez le format 192.168.1.1", .error)
+            setState(language.t("Adresse invalide : utilisez le format 192.168.1.1"), .error)
             return
         }
 
         targetInvalid = false
         running = true
-        setState("Ping en cours vers \(address) via \(card.info.serviceName)…", .info)
+        setState(language.f("Ping en cours vers {0} via {1}…", address, card.info.serviceName), .info)
 
         Task { @MainActor in
             let outcome = await PingRunner.send(address: address, device: card.info.device, count: 4)
             running = false
 
             let stamp = PingView.timeFormatter.string(from: Date())
-            let source = card.info.ip.isEmpty ? "" : " via \(card.info.serviceName) (\(card.info.ip))"
+            let source = card.info.ip.isEmpty
+                ? ""
+                : " " + language.f("via {0} ({1})", card.info.serviceName, card.info.ip)
             entries.append(PingLogEntry(
                 text: "\(stamp)   →   \(address)\(source)   ·   \(outcome.detail)",
                 kind: outcome.success ? .success : .error
             ))
 
             if outcome.success {
-                setState("Réponse de \(address) : \(outcome.detail.lowercased()).", .success)
+                setState(language.f("Réponse de {0} : {1}.", address, outcome.detail.lowercased()), .success)
             } else {
-                setState("Aucune réponse de \(address) : \(outcome.detail).", .error)
+                setState(language.f("Aucune réponse de {0} : {1}.", address, outcome.detail), .error)
             }
         }
     }

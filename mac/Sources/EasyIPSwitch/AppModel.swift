@@ -26,16 +26,16 @@ final class AppModel: ObservableObject {
 
     var pendingHint: String {
         if loading && cards.isEmpty {
-            return "Chargement des cartes réseau…"
+            return L.t("Chargement des cartes réseau…")
         }
         let dirty = cards.filter { $0.isDirty }.count
         if dirty == 0 {
-            return "Aucune modification en attente."
+            return L.t("Aucune modification en attente.")
         }
         if dirty == 1 {
-            return "1 carte modifiée — utilisez le bouton Changer de la carte concernée."
+            return L.t("1 carte modifiée — utilisez le bouton Changer de la carte concernée.")
         }
-        return "\(dirty) cartes modifiées — utilisez le bouton Changer de chaque carte."
+        return L.f("{0} cartes modifiées — utilisez le bouton Changer de chaque carte.", dirty)
     }
 
     func start() async {
@@ -49,7 +49,7 @@ final class AppModel: ObservableObject {
         loading = true
 
         if manual {
-            setStatus("Actualisation des cartes réseau…", .info)
+            setStatus(L.t("Actualisation des cartes réseau…"), .info)
         }
 
         let infos = await NetworkReader.readAsync()
@@ -61,10 +61,10 @@ final class AppModel: ObservableObject {
             hasLoadedOnce = true
             if cards.isEmpty {
                 if manual || firstLoad {
-                    setStatus("Aucune carte réseau détectée. Vérifiez les réglages Réseau de macOS.", .warning)
+                    setStatus(L.t("Aucune carte réseau détectée. Vérifiez les réglages Réseau de macOS."), .warning)
                 }
             } else {
-                setStatus("Lecture réseau incomplète : les cartes affichées sont conservées. Réessayez avec Actualiser.", .warning)
+                setStatus(L.t("Lecture réseau incomplète : les cartes affichées sont conservées. Réessayez avec Actualiser."), .warning)
             }
             return
         }
@@ -72,7 +72,7 @@ final class AppModel: ObservableObject {
         merge(infos)
         hasLoadedOnce = true
         if manual {
-            setStatus("Cartes réseau actualisées.", .success)
+            setStatus(L.t("Cartes réseau actualisées."), .success)
         }
     }
 
@@ -85,7 +85,7 @@ final class AppModel: ObservableObject {
     func apply(_ card: AdapterCardModel) async -> Bool {
         guard !card.busy else { return false }
         guard card.info.enabled else {
-            let text = "La carte est désactivée ; activez-la avant de changer son adressage."
+            let text = L.t("La carte est désactivée ; activez-la avant de changer son adressage.")
             card.setMessage(text, .warning)
             setStatus(text, .warning)
             return false
@@ -105,7 +105,7 @@ final class AppModel: ObservableObject {
 
         card.busy = true
         card.clearMessage()
-        setStatus("Application de la configuration sur « \(service) »…", .info)
+        setStatus(L.f("Application de la configuration sur « {0} »…", service), .info)
 
         let result: CommandResult
         if wantsDHCP {
@@ -151,14 +151,14 @@ final class AppModel: ObservableObject {
         card.busy = false
 
         guard !lastInfos.isEmpty else {
-            let text = "Configuration envoyée, mais la relecture des cartes réseau a échoué. Utilisez Actualiser pour vérifier."
+            let text = L.t("Configuration envoyée, mais la relecture des cartes réseau a échoué. Utilisez Actualiser pour vérifier.")
             card.setMessage(text, .warning)
             setStatus(text, .warning)
             return false
         }
 
         guard let verifiedAdapter = latestTarget else {
-            let text = "Configuration envoyée, mais la carte n'a pas été retrouvée. Utilisez Actualiser pour vérifier."
+            let text = L.t("Configuration envoyée, mais la carte n'a pas été retrouvée. Utilisez Actualiser pour vérifier.")
             card.setMessage(text, .warning)
             setStatus(text, .warning)
             return false
@@ -182,15 +182,15 @@ final class AppModel: ObservableObject {
         merge(mergeInfos, resetIDs: verified ? [identifier] : [], preserveMissing: true)
 
         if verified {
-            let text = "Configuration appliquée et vérifiée."
+            let text = L.t("Configuration appliquée et vérifiée.")
             card.setMessage(text, .success)
-            setStatus("Configuration appliquée sur « \(verifiedAdapter.serviceName) ».", .success)
+            setStatus(L.f("Configuration appliquée sur « {0} ».", verifiedAdapter.serviceName), .success)
             return true
         }
 
-        let text = "Configuration envoyée, mais macOS affiche encore : \(verifiedAdapter.summaryText)."
+        let text = L.f("Configuration envoyée, mais macOS affiche encore : {0}.", verifiedAdapter.summaryText)
         card.setMessage(text, .warning)
-        setStatus("Configuration envoyée ; vérification incomplète.", .warning)
+        setStatus(L.t("Configuration envoyée ; vérification incomplète."), .warning)
         return false
     }
 
@@ -201,7 +201,12 @@ final class AppModel: ObservableObject {
         let identifier = card.id
 
         card.busy = true
-        setStatus(enabled ? "Activation de « \(service) »…" : "Désactivation de « \(service) »…", .info)
+        setStatus(
+            enabled
+                ? L.f("Activation de « {0} »…", service)
+                : L.f("Désactivation de « {0} »…", service),
+            .info
+        )
 
         let result = await NetworkWriter.setEnabled(service: service, enabled: enabled)
         guard result.status == 0 else {
@@ -235,14 +240,14 @@ final class AppModel: ObservableObject {
         card.busy = false
 
         guard !lastInfos.isEmpty else {
-            let text = "L'état de la carte n'a pas pu être relu. Utilisez Actualiser pour vérifier."
+            let text = L.t("L'état de la carte n'a pas pu être relu. Utilisez Actualiser pour vérifier.")
             card.setMessage(text, .warning)
             setStatus(text, .warning)
             return
         }
 
         guard let fresh = latestTarget else {
-            let text = "L'état de la carte n'a pas pu être relu. Utilisez Actualiser pour vérifier."
+            let text = L.t("L'état de la carte n'a pas pu être relu. Utilisez Actualiser pour vérifier.")
             card.setMessage(text, .warning)
             setStatus(text, .warning)
             return
@@ -255,11 +260,16 @@ final class AppModel: ObservableObject {
         merge(mergeInfos, preserveMissing: true)
 
         if fresh.enabled == enabled {
-            let text = enabled ? "Carte activée." : "Carte désactivée."
+            let text = enabled ? L.t("Carte activée.") : L.t("Carte désactivée.")
             card.setMessage(text, .success)
-            setStatus(enabled ? "« \(fresh.serviceName) » est activée." : "« \(fresh.serviceName) » est désactivée.", .success)
+            setStatus(
+                enabled
+                    ? L.f("« {0} » est activée.", fresh.serviceName)
+                    : L.f("« {0} » est désactivée.", fresh.serviceName),
+                .success
+            )
         } else {
-            let text = "macOS n'a pas confirmé le changement d'état."
+            let text = L.t("macOS n'a pas confirmé le changement d'état.")
             card.setMessage(text, .warning)
             setStatus(text, .warning)
         }
@@ -270,15 +280,16 @@ final class AppModel: ObservableObject {
 
         let address = card.testAddress
         guard let parsed = IPv4.parse(address), !IPv4.isForbidden(parsed) else {
-            let text = "Cette carte n'a pas d'adresse IPv4 valide à tester."
+            let text = L.t("Cette carte n'a pas d'adresse IPv4 valide à tester.")
             card.setMessage(text, .error)
             setStatus(text, .error)
             return
         }
 
+        let testing = L.f("Test de « {0} » en cours…", address)
         card.busy = true
-        card.setMessage("Test de « \(address) » en cours…", .info)
-        setStatus("Test de « \(address) » en cours…", .info)
+        card.setMessage(testing, .info)
+        setStatus(testing, .info)
 
         let outcome = await PingRunner.send(address: address, device: card.info.device, count: 3)
 
@@ -287,14 +298,14 @@ final class AppModel: ObservableObject {
         if outcome.success, !gateway.isEmpty, gateway != address, IPv4.parse(gateway) != nil {
             let gatewayOutcome = await PingRunner.send(address: gateway, device: card.info.device, count: 2)
             if !gatewayOutcome.success {
-                gatewayFailure = " La passerelle \(gateway) ne répond pas."
+                gatewayFailure = " " + L.f("La passerelle {0} ne répond pas.", gateway)
             }
         }
 
         card.busy = false
 
         if outcome.success {
-            let text = "L'adresse \(address) répond (\(outcome.detail))."
+            let text = L.f("L'adresse {0} répond ({1}).", address, outcome.detail)
             if gatewayFailure.isEmpty {
                 card.setMessage(text, .success)
                 setStatus(text, .success)
@@ -303,7 +314,7 @@ final class AppModel: ObservableObject {
                 setStatus(text + gatewayFailure, .error)
             }
         } else {
-            let text = "Aucune réponse de \(address) : \(outcome.detail)."
+            let text = L.f("Aucune réponse de {0} : {1}.", address, outcome.detail)
             card.setMessage(text, .error)
             setStatus(text, .error)
         }
@@ -326,6 +337,16 @@ final class AppModel: ObservableObject {
     }
 
     func cardDraftStateChanged() {
+        draftRevision &+= 1
+    }
+
+    /// Refreshes the transient messages that were generated in the previous
+    /// language. Computed hints and field errors translate themselves.
+    func languageChanged() {
+        setStatus("", .none)
+        for card in cards {
+            card.languageChanged()
+        }
         draftRevision &+= 1
     }
 

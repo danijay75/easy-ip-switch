@@ -1,7 +1,7 @@
 # Easy IP-Switch pour macOS
 
 Portage natif SwiftUI de l'application Windows **Easy IP-Switch v1.1**.
-Version macOS : **v1.1.1**. Même interface, mêmes règles de validation,
+Version macOS : **v1.1.2**. Même interface, mêmes règles de validation,
 adaptées aux services réseau de macOS.
 
 > **État vérifié le 2 novembre 2026** (macOS 26.6.2, Apple Silicon) : compilation
@@ -40,12 +40,12 @@ bash scripts/build-mac.sh
 Le script produit :
 
 ```
-mac/dist/Easy IP-Switch v1.1.1 (Intel).app
-mac/dist/Easy IP-Switch v1.1.1 (Apple Silicon).app
-mac/dist/Easy IP-Switch v1.1.1 (Intel).dmg
-mac/dist/Easy IP-Switch v1.1.1 (Apple Silicon).dmg
-mac/dist/Easy IP-Switch v1.1.1 (Intel).zip
-mac/dist/Easy IP-Switch v1.1.1 (Apple Silicon).zip
+mac/dist/Easy IP-Switch v1.1.2 (Intel).app
+mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).app
+mac/dist/Easy IP-Switch v1.1.2 (Intel).dmg
+mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).dmg
+mac/dist/Easy IP-Switch v1.1.2 (Intel).zip
+mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).zip
 ```
 
 Chaque application est signée en ad-hoc (`codesign --sign -`), ce qui est
@@ -61,7 +61,7 @@ Version universelle facultative (un seul binaire Intel + Apple Silicon) :
 bash scripts/build-mac.sh --universal
 ```
 
-Cela ajoute `Easy IP-Switch v1.1.1 (Universelle).app`, son zip et son DMG.
+Cela ajoute `Easy IP-Switch v1.1.2 (Universelle).app`, son zip et son DMG.
 
 ## Installer depuis un DMG
 
@@ -111,8 +111,21 @@ message, car la signature ad-hoc ne remplace pas une signature Developer ID.
 Utiliser **clic droit → Ouvrir**, ou retirer l'attribut de quarantaine :
 
 ```bash
-xattr -dr com.apple.quarantine "Easy IP-Switch v1.1.1 (Apple Silicon).app"
+xattr -dr com.apple.quarantine "Easy IP-Switch v1.1.2 (Apple Silicon).app"
 ```
+
+## Langues
+
+L'interface est disponible en **français, anglais, allemand et espagnol**.
+
+- Français par défaut au premier lancement.
+- Sélecteur de drapeaux dans l'en-tête, à côté du thème.
+- Changement immédiat, sans redémarrage.
+- Choix mémorisé dans `UserDefaults` (`EasyIPSwitch.language`).
+- Drapeaux dans `assets/flags/`, copiés dans `Contents/Resources/flags` par le
+  script de build.
+- Toutes les chaînes visibles utilisent le catalogue `LocalizationCatalog`
+  (traductions Windows) et les compléments macOS de `LocalizationExtras`.
 
 ## Fermeture et don
 
@@ -170,9 +183,9 @@ Developer et un certificat **Developer ID Application** :
 ```bash
 codesign --force --deep --options runtime \
   --sign "Developer ID Application: VOTRE NOM (TEAMID)" \
-  "Easy IP-Switch v1.1.1 (Apple Silicon).app"
+  "Easy IP-Switch v1.1.2 (Apple Silicon).app"
 
-ditto -c -k --keepParent "Easy IP-Switch v1.1.1 (Apple Silicon).app" archive.zip
+ditto -c -k --keepParent "Easy IP-Switch v1.1.2 (Apple Silicon).app" archive.zip
 
 xcrun notarytool submit archive.zip \
   --apple-id "votre@compte" \
@@ -180,7 +193,7 @@ xcrun notarytool submit archive.zip \
   --password "mot-de-passe-application" \
   --wait
 
-xcrun stapler staple "Easy IP-Switch v1.1.1 (Apple Silicon).app"
+xcrun stapler staple "Easy IP-Switch v1.1.2 (Apple Silicon).app"
 ```
 
 Répéter pour la version Intel, ou notariser une version universelle.
@@ -252,7 +265,7 @@ mac/
 │   └── make-icns.sh              # PNG → .icns via sips/iconutil
 └── Sources/EasyIPSwitch/
     ├── EasyIPSwitchApp.swift     # point d'entrée, fenêtre, confirmation de fermeture
-    ├── AppInfo.swift             # nom, version v1.1.1, liens
+    ├── AppInfo.swift             # nom, version v1.1.2, liens
     ├── AppTheme.swift            # palettes clair/sombre
     ├── Models.swift              # modèles et messages
     ├── IPv4.swift                # validation IPv4
@@ -274,7 +287,7 @@ mac/
 
 À faire lors du premier lancement sur le Mac (impossible depuis Windows) :
 
-- [ ] L'en-tête affiche **Easy IP-Switch v1.1.1**.
+- [ ] L'en-tête affiche **Easy IP-Switch v1.1.2**.
 - [ ] Les cartes Wi-Fi/Ethernet apparaissent avec leur adresse actuelle.
 - [ ] Chaque carte affiche aussi le nom matériel et le périphérique (ex. « Wi-Fi — en0 »).
 - [ ] Le passage DHCP → adresse fixe demande l'autorisation admin et s'applique.

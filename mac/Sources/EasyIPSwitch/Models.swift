@@ -34,22 +34,22 @@ struct AdapterInfo: Identifiable {
 
     var statusLabel: String {
         if !enabled {
-            return "Désactivée"
+            return L.t("Désactivée")
         }
-        return connected ? "Connectée" : "Non connectée"
+        return connected ? L.t("Connectée") : L.t("Non connectée")
     }
 
     var summaryText: String {
         if !enabled {
-            return "carte désactivée"
+            return L.t("carte désactivée")
         }
         if ip.isEmpty {
-            return dhcp ? "DHCP actif, aucune adresse" : "adresse fixe, aucune adresse"
+            return dhcp ? L.t("DHCP actif, aucune adresse") : L.t("adresse fixe, aucune adresse")
         }
         if dhcp {
-            return "DHCP actif, \(ip)"
+            return L.f("DHCP actif, {0}", ip)
         }
-        return "adresse fixe \(ip)/\(mask)"
+        return L.f("adresse fixe {0}/{1}", ip, mask)
     }
 }
 

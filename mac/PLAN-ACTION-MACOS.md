@@ -1,4 +1,4 @@
-# Plan d'action macOS — Easy IP-Switch v1.1.1
+# Plan d'action macOS — Easy IP-Switch v1.1.2
 
 **Date :** 2 novembre 2026
 **Machine de validation :** Mac Apple Silicon, macOS 26.6.2 (25G83), Swift 6.3.3, Xcode Command Line Tools
@@ -16,7 +16,7 @@
 | Build Apple Silicon arm64 | ✅ | `Mach-O 64-bit executable arm64` |
 | Build universel | ✅ | `x86_64 + arm64` via `lipo` |
 | Signature ad-hoc | ✅ | `codesign --verify --deep --strict` valide sur les 3 bundles |
-| `Info.plist` | ✅ | Version `1.1.1`, minimum macOS `12.0`, bundle ID correct |
+| `Info.plist` | ✅ | Version `1.1.2`, minimum macOS `12.0`, bundle ID correct |
 | Lancement Apple Silicon | ✅ | Application lancée, fenêtre 1120 × 836 détectée |
 | Lancement Intel | ✅ | Lancée via Rosetta 2 sur Apple Silicon |
 | Lecture réseau | ✅ | 6 services lus, dont Wi-Fi `en0` et USB Ethernet `en7` |
@@ -30,17 +30,17 @@ copie locale pour éviter de synchroniser des bundles signés via pCloud :
 
 ```text
 mac/dist/
-├── Easy IP-Switch v1.1.1 (Apple Silicon).dmg
-├── Easy IP-Switch v1.1.1 (Apple Silicon).zip
-├── Easy IP-Switch v1.1.1 (Intel).dmg
-├── Easy IP-Switch v1.1.1 (Intel).zip
-├── Easy IP-Switch v1.1.1 (Universelle).dmg
-└── Easy IP-Switch v1.1.1 (Universelle).zip
+├── Easy IP-Switch v1.1.2 (Apple Silicon).dmg
+├── Easy IP-Switch v1.1.2 (Apple Silicon).zip
+├── Easy IP-Switch v1.1.2 (Intel).dmg
+├── Easy IP-Switch v1.1.2 (Intel).zip
+├── Easy IP-Switch v1.1.2 (Universelle).dmg
+└── Easy IP-Switch v1.1.2 (Universelle).zip
 
 ~/EasyIPSwitch-mac-build/dist/
-├── Easy IP-Switch v1.1.1 (Apple Silicon).app
-├── Easy IP-Switch v1.1.1 (Intel).app
-└── Easy IP-Switch v1.1.1 (Universelle).app
+├── Easy IP-Switch v1.1.2 (Apple Silicon).app
+├── Easy IP-Switch v1.1.2 (Intel).app
+└── Easy IP-Switch v1.1.2 (Universelle).app
 ```
 
 Chaque DMG contient l'application, un raccourci vers **Applications** et le
@@ -60,8 +60,8 @@ raccourci sur le Bureau du compte connecté).
 |---|---|---|---|
 | A1 | Choisir l'emplacement de livraison des artefacts | `.zip` copiés dans `mac/dist/`, `.app` gardés en local | ✅ |
 | A2 | Revalider les bundles | `file`, `lipo -info`, `codesign --verify --deep --strict`, `plutil -p` | ✅ |
-| A3 | Lancer l'app Apple Silicon | `open "dist/Easy IP-Switch v1.1.1 (Apple Silicon).app"` | ✅ |
-| A4 | Vérifier l'en-tête et le titre | **Easy IP-Switch v1.1.1**, sous-titre français | ⏳ visuel |
+| A3 | Lancer l'app Apple Silicon | `open "dist/Easy IP-Switch v1.1.2 (Apple Silicon).app"` | ✅ |
+| A4 | Vérifier l'en-tête et le titre | **Easy IP-Switch v1.1.2**, sous-titre français | ⏳ visuel |
 | A5 | Vérifier les cartes | Wi-Fi/Ethernet, adresse actuelle, « Wi-Fi — en0 » | ⏳ visuel |
 | A6 | Tester le ping depuis l'onglet | Adresse de la passerelle, autorisation Réseau local si demandée | ⏳ visuel |
 | A7 | Tester le thème clair/sombre | Bascule + relance de l'app | ⏳ visuel |
@@ -151,7 +151,7 @@ affiche lui-même la boîte de dialogue.
 | C3 | Signature Developer ID | Compte Apple Developer + certificat | ⏳ optionnel |
 | C4 | Notarisation | `notarytool submit` + `stapler` | ⏳ optionnel |
 | C5 | Régénérer le zip source | Inclure `PLAN-ACTION-MACOS.md`, les tests et les corrections | ✅ |
-| C6 | Vérifier les versions | `1.1.1` dans `Info.plist`, `AppInfo.swift` et les tests | ✅ |
+| C6 | Vérifier les versions | `1.1.2` dans `Info.plist`, `AppInfo.swift` et les tests | ✅ |
 
 Pour un usage local, la signature ad-hoc actuelle suffit. Pour une diffusion publique
 sans avertissement Gatekeeper, il faut un certificat **Developer ID Application** et
@@ -193,18 +193,18 @@ bash scripts/build-mac.sh
 bash scripts/build-mac.sh --universal
 
 # Vérifier les architectures
-file "dist/Easy IP-Switch v1.1.1 (Intel).app/Contents/MacOS/EasyIPSwitch"
-file "dist/Easy IP-Switch v1.1.1 (Apple Silicon).app/Contents/MacOS/EasyIPSwitch"
-lipo -info "dist/Easy IP-Switch v1.1.1 (Universelle).app/Contents/MacOS/EasyIPSwitch"
+file "dist/Easy IP-Switch v1.1.2 (Intel).app/Contents/MacOS/EasyIPSwitch"
+file "dist/Easy IP-Switch v1.1.2 (Apple Silicon).app/Contents/MacOS/EasyIPSwitch"
+lipo -info "dist/Easy IP-Switch v1.1.2 (Universelle).app/Contents/MacOS/EasyIPSwitch"
 
 # Vérifier la signature
-codesign --verify --deep --strict --verbose=2 "dist/Easy IP-Switch v1.1.1 (Apple Silicon).app"
+codesign --verify --deep --strict --verbose=2 "dist/Easy IP-Switch v1.1.2 (Apple Silicon).app"
 
 # Vérifier le bundle
-plutil -p "dist/Easy IP-Switch v1.1.1 (Apple Silicon).app/Contents/Info.plist"
+plutil -p "dist/Easy IP-Switch v1.1.2 (Apple Silicon).app/Contents/Info.plist"
 
 # Lancer
-open "dist/Easy IP-Switch v1.1.1 (Apple Silicon).app"
+open "dist/Easy IP-Switch v1.1.2 (Apple Silicon).app"
 
 # Tests Swift après ajout de la cible
 swift test
