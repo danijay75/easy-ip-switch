@@ -2,7 +2,7 @@
 
 Application de changement rapide d’adresse IP pour **Windows** et **macOS**.
 
-Version actuelle : **1.1.1**
+Version actuelle : **1.1.2**
 
 Site officiel : <https://angelivisions.com/easy-ip-switch>
 
@@ -43,7 +43,7 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 Le binaire est produit dans :
 
 ```text
-dist/easy ip-switch v1.1.1.exe
+dist/easy ip-switch v1.1.2.exe
 ```
 
 ## Tests Windows

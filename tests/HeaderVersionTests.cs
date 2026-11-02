@@ -21,11 +21,11 @@ namespace EasyIpSwitch
 
         private static void VersionLabelMatchesRelease()
         {
-            Assert(AppInfo.Version == "1.1.1", "The release must be versioned 1.1.1.");
-            Assert(AppInfo.VersionLabel == "v1.1.1", "The displayed version must read v1.1.1.");
+            Assert(AppInfo.Version == "1.1.2", "The release must be versioned 1.1.2.");
+            Assert(AppInfo.VersionLabel == "v1.1.2", "The displayed version must read v1.1.2.");
             Version assembly = typeof(AppInfo).Assembly.GetName().Version;
-            Assert(assembly.Major == 1 && assembly.Minor == 1 && assembly.Build == 1,
-                "The assembly must carry the 1.1.1 version.");
+            Assert(assembly.Major == 1 && assembly.Minor == 1 && assembly.Build == 2,
+                "The assembly must carry the 1.1.2 version.");
         }
 
         private static void WindowTitleCarriesVersion()
