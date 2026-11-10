@@ -25,6 +25,7 @@ namespace EasyIpSwitch
             Application.SetCompatibleTextRenderingDefault(false);
             L.Initialize();
             Theme.Init();
+            Theme.SetDark(Theme.DetectSystemDark());
 
             Application.ThreadException += delegate(object sender, ThreadExceptionEventArgs e)
             {
@@ -37,6 +38,10 @@ namespace EasyIpSwitch
 
             try
             {
+                if (!TermsConsent.EnsureAccepted(null))
+                {
+                    return;
+                }
                 Application.Run(new MainForm());
             }
             catch (Exception ex)

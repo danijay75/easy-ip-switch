@@ -5,7 +5,7 @@ namespace EasyIpSwitch
     internal static class AppInfo
     {
         public const string ProductName = "Easy IP-Switch";
-        public const string Version = "1.1.2";
+        public const string Version = "1.1.3";
         public const string VersionLabel = "v" + Version;
         public const string WebsiteUrl = "https://www.angelivisions.com";
 

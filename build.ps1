@@ -23,7 +23,7 @@ $icon = Join-Path $assets 'app.ico'
 $manifest = Join-Path $src 'app.manifest'
 
 $appInfo = Get-Content -LiteralPath (Join-Path $src 'AppInfo.cs') -Raw
-$version = '1.1.2'
+$version = '1.1.3'
 if ($appInfo -match 'Version\s*=\s*"([^"]+)"') {
     $version = $Matches[1]
 }

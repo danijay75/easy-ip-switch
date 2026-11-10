@@ -812,6 +812,62 @@ namespace EasyIpSwitch
                 "Ein unerwarteter Fehler ist aufgetreten:\r\n\r\n{0}",
                 "Se produjo un error inesperado:\r\n\r\n{0}");
             Add("Exception inconnue", "Unknown exception", "Unbekannte Ausnahme", "Excepción desconocida");
+
+            // Conditions d'utilisation et RGPD
+            Add("Conditions d'utilisation et RGPD",
+                "Terms of Use and GDPR",
+                "Nutzungsbedingungen und DSGVO",
+                "Condiciones de uso y RGPD");
+            Add("Veuillez lire et accepter les présentes conditions pour utiliser Easy IP-Switch.",
+                "Please read and accept these terms to use Easy IP-Switch.",
+                "Bitte lesen und akzeptieren Sie diese Bedingungen, um Easy IP-Switch zu verwenden.",
+                "Lea y acepte estas condiciones para utilizar Easy IP-Switch.");
+            Add("100 % local · Aucune donnée personnelle collectée",
+                "100% local · No personal data collected",
+                "100 % lokal · Keine Erhebung personenbezogener Daten",
+                "100 % local · Sin recopilación de datos personales");
+            Add("J'accepte", "I accept", "Ich akzeptiere", "Acepto");
+            Add("Je refuse", "I decline", "Ich lehne ab", "Rechazo");
+            Add("1. Objet et licence (MIT)\r\n"
+                + "Easy IP-Switch, édité par Angeli Visions, permet de consulter et de modifier localement la configuration IPv4 des cartes réseau Windows (DHCP, adresse fixe, masque, passerelle, activation) et d'effectuer des tests de ping.\r\n\r\n"
+                + "2. Responsabilité d'utilisation\r\n"
+                + "L'application modifie directement les paramètres réseau de ce poste. Vous êtes seul responsable des configurations appliquées ; des réglages inadaptés peuvent interrompre votre accès au réseau ou à Internet. Le logiciel est fourni « en l'état », sans garantie.\r\n\r\n"
+                + "3. Protection des données et respect du RGPD (UE 2016/679)\r\n"
+                + "• Aucune collecte : Easy IP-Switch fonctionne 100 % en local. Aucune donnée personnelle, adresse IP ou télémétrie n'est collectée ni transmise à Angeli Visions ou à un tiers.\r\n"
+                + "• Stockage local uniquement : seuls la langue choisie et votre accord sont enregistrés dans votre session Windows locale, ainsi qu'un journal local en cas d'erreur technique.\r\n"
+                + "• Liens externes : le site officiel et la page de don PayPal ne s'ouvrent que sur clic explicite de votre part.\r\n\r\n"
+                + "4. Votre choix\r\n"
+                + "Cliquez sur « J'accepte » pour mémoriser votre accord et ouvrir l'application, ou sur « Je refuse » pour fermer l'application (votre accord vous sera redemandé au prochain lancement).",
+                "1. Purpose and license (MIT)\r\n"
+                + "Easy IP-Switch, published by Angeli Visions, lets you view and locally modify the IPv4 configuration of Windows network cards (DHCP, static address, mask, gateway, activation) and run ping tests.\r\n\r\n"
+                + "2. Responsibility of use\r\n"
+                + "The application directly modifies this computer's network settings. You are solely responsible for the configurations applied; inappropriate settings may interrupt your network or Internet access. The software is provided \"as is\", without warranty.\r\n\r\n"
+                + "3. Data protection and GDPR compliance (EU 2016/679)\r\n"
+                + "• No data collection: Easy IP-Switch operates 100% locally. No personal data, IP address or telemetry is collected or transmitted to Angeli Visions or any third party.\r\n"
+                + "• Local storage only: only your selected language and your consent are stored in your local Windows user session, along with a local log in case of a technical error.\r\n"
+                + "• External links: the official website and the PayPal donation page open only upon your explicit click.\r\n\r\n"
+                + "4. Your choice\r\n"
+                + "Click \"I accept\" to remember your consent and open the application, or \"I decline\" to close the application (you will be asked again at the next launch).",
+                "1. Zweck und Lizenz (MIT)\r\n"
+                + "Easy IP-Switch, herausgegeben von Angeli Visions, ermöglicht das lokale Anzeigen und Ändern der IPv4-Konfiguration von Windows-Netzwerkkarten (DHCP, feste Adresse, Maske, Gateway, Aktivierung) sowie das Ausführen von Ping-Tests.\r\n\r\n"
+                + "2. Nutzungsverantwortung\r\n"
+                + "Die Anwendung ändert direkt die Netzwerkeinstellungen dieses Computers. Sie sind allein für die angewendeten Konfigurationen verantwortlich; ungeeignete Einstellungen können Ihren Netzwerk- oder Internetzugang unterbrechen. Die Software wird „wie besehen“ ohne Gewährleistung bereitgestellt.\r\n\r\n"
+                + "3. Datenschutz und DSGVO-Konformität (EU 2016/679)\r\n"
+                + "• Keine Datenerhebung: Easy IP-Switch arbeitet zu 100 % lokal. Es werden keine personenbezogenen Daten, IP-Adressen oder Telemetriedaten erhoben oder an Angeli Visions oder Dritte übermittelt.\r\n"
+                + "• Nur lokale Speicherung: Lediglich die gewählte Sprache und Ihre Zustimmung werden in Ihrer lokalen Windows-Benutzersitzung gespeichert, ergänzt durch ein lokales Protokoll bei technischen Fehlern.\r\n"
+                + "• Externe Links: Die offizielle Website und die PayPal-Spendenseite öffnen sich nur nach Ihrem ausdrücklichen Klick.\r\n\r\n"
+                + "4. Ihre Wahl\r\n"
+                + "Klicken Sie auf „Ich akzeptiere“, um Ihre Zustimmung zu speichern und die Anwendung zu öffnen, oder auf „Ich lehne ab“, um die Anwendung zu schließen (beim nächsten Start werden Sie erneut gefragt).",
+                "1. Objeto y licencia (MIT)\r\n"
+                + "Easy IP-Switch, editado por Angeli Visions, permite consultar y modificar localmente la configuración IPv4 de las tarjetas de red de Windows (DHCP, dirección fija, máscara, puerta de enlace, activación) y realizar pruebas de ping.\r\n\r\n"
+                + "2. Responsabilidad de uso\r\n"
+                + "La aplicación modifica directamente los ajustes de red de este equipo. Usted es el único responsable de las configuraciones aplicadas; unos ajustes inadecuados pueden interrumpir su acceso a la red o a Internet. El software se proporciona «tal cual», sin garantía.\r\n\r\n"
+                + "3. Protección de datos y cumplimiento del RGPD (UE 2016/679)\r\n"
+                + "• Sin recopilación de datos: Easy IP-Switch funciona 100 % en local. No se recopila ni transmite ningún dato personal, dirección IP ni telemetría a Angeli Visions ni a terceros.\r\n"
+                + "• Almacenamiento exclusivamente local: solo el idioma elegido y su aceptación se guardan en su sesión local de Windows, junto con un registro local en caso de error técnico.\r\n"
+                + "• Enlaces externos: el sitio web oficial y la página de donación de PayPal solo se abren mediante un clic explícito por su parte.\r\n\r\n"
+                + "4. Su elección\r\n"
+                + "Haga clic en «Acepto» para recordar su consentimiento y abrir la aplicación, o en «Rechazo» para cerrar la aplicación (se le volverá a preguntar en el próximo inicio).");
         }
     }
 }

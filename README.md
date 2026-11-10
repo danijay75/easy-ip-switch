@@ -2,7 +2,7 @@
 
 Application de changement rapide d’adresse IP pour **Windows** et **macOS**.
 
-Version actuelle : **1.1.2**
+Version actuelle : **1.1.3**
 
 Site officiel : <https://angelivisions.com/easy-ip-switch>
 
@@ -16,6 +16,7 @@ Site officiel : <https://angelivisions.com/easy-ip-switch>
 - Test de connectivité et onglet de ping.
 - Interface responsive et thèmes clair/sombre.
 - Interface en **français, anglais, allemand et espagnol**, changeable sans redémarrage.
+- Acceptation en un clic des conditions d’utilisation et de la notice RGPD au lancement (mémorisée après acceptation).
 - Fermeture avec rappel de don et QR code PayPal.
 
 ## Structure
@@ -43,7 +44,7 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 Le binaire est produit dans :
 
 ```text
-dist/easy ip-switch v1.1.2.exe
+dist/easy ip-switch v1.1.3.exe
 ```
 
 ## Tests Windows
