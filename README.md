@@ -61,6 +61,36 @@ Command Line Tools. Consulter :
 - `mac/README.md`
 - `mac/ETAT-DU-PROJET-MACOS.md`
 
+## Site web
+
+La page <https://angelivisions.com/easy-ip-switch> est servie depuis le dépôt
+`danijay75/angelivisions` (Next.js).
+
+### Reste à faire depuis Windows
+
+La release macOS **1.1.3** et le dépôt du site sont à jour sur GitHub, mais la
+production n'a pas encore été déployée. Sur le poste Windows :
+
+1. Récupérer la dernière version du site (le dossier local pCloud est en
+   retard sur `main`) :
+   ```powershell
+   cd "P:\Projets IA\angeli-visions-website"
+   git fetch origin
+   git reset --hard origin/main
+   ```
+2. Vérifier que les deux DMG 1.1.3 sont présents :
+   ```powershell
+   Get-ChildItem public\downloads\easy-ip-switch\easy-ip-switch-1.1.3-macos-*.dmg
+   ```
+3. Déployer :
+   ```powershell
+   .\.agent\deploy.ps1
+   ```
+4. Contrôler la page : version **1.1.3**, liens Intel et Apple Silicon qui
+   répondent, mention **Conditions et RGPD**.
+
+Rappel : la page Windows utilise déjà `easy-ip-switch-1.1.3-windows.exe`.
+
 ## Soutenir le projet
 
 <https://www.paypal.com/donate/?hosted_button_id=WZBCQXPEHHDDC>

@@ -1672,3 +1672,31 @@ Le **déploiement en production** reste à lancer depuis le poste Windows avec
 `.\.agent\deploy.ps1` : ce Mac ne dispose ni de la clé SSH ni de l'alias
 `angelivisions`. La copie locale du site dans pCloud est antérieure au
 refactoring multilingue du dépôt : il faut récupérer `main` avant de déployer.
+
+#### À faire depuis Windows (OpenCode Windows)
+
+1. Dans `P:\Projets IA\angeli-visions-website` :
+   ```powershell
+   git fetch origin
+   git reset --hard origin/main
+   ```
+   Cela récupère la page multilingue, `MAC_VERSION = 1.1.3`, les deux DMG et
+   les textes sur les conditions d'utilisation.
+2. Vérifier la présence des fichiers :
+   ```powershell
+   Get-ChildItem public\downloads\easy-ip-switch\easy-ip-switch-1.1.3-macos-*.dmg
+   ```
+   Attendu : `easy-ip-switch-1.1.3-macos-intel.dmg` et
+   `easy-ip-switch-1.1.3-macos-apple-silicon.dmg`.
+3. Déployer en production :
+   ```powershell
+   .\.agent\deploy.ps1
+   ```
+4. Contrôler <https://angelivisions.com/easy-ip-switch> et
+   <https://angelivisions.com/easy-ip-switch/en> : version 1.1.3, liens DMG
+   fonctionnels, mention « Conditions et RGPD ».
+5. Ne pas redéployer depuis l'ancienne copie locale sans l'étape 1 : elle
+   écraserait le refactoring multilingue du site.
+
+Aucune action supplémentaire n'est nécessaire côté application Windows : la
+release `v1.1.3` et l'exécutable sont déjà publiés.
