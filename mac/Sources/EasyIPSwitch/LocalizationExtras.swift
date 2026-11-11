@@ -51,5 +51,12 @@ enum LocalizationExtras {
         "La passerelle {0} ne répond pas.": ["en": "Gateway {0} does not respond.", "de": "Das Gateway {0} antwortet nicht.", "es": "La puerta de enlace {0} no responde."],
         "Opération annulée : aucune modification n'a été appliquée.": ["en": "Operation canceled: no changes were applied.", "de": "Vorgang abgebrochen: Es wurden keine Änderungen übernommen.", "es": "Operación cancelada: no se aplicó ningún cambio."],
         "Réponse de {0} : {1}.": ["en": "Reply from {0}: {1}.", "de": "Antwort von {0}: {1}.", "es": "Respuesta de {0}: {1}."],
+        "Conditions d'utilisation et RGPD": ["en": "Terms of Use and GDPR", "de": "Nutzungsbedingungen und DSGVO", "es": "Condiciones de uso y RGPD"],
+        "Veuillez lire et accepter les présentes conditions pour utiliser Easy IP-Switch.": ["en": "Please read and accept these terms to use Easy IP-Switch.", "de": "Bitte lesen und akzeptieren Sie diese Bedingungen, um Easy IP-Switch zu verwenden.", "es": "Lea y acepte estas condiciones para utilizar Easy IP-Switch."],
+        "100 % local · Aucune donnée personnelle collectée": ["en": "100% local · No personal data collected", "de": "100 % lokal · Keine Erhebung personenbezogener Daten", "es": "100 % local · Sin recopilación de datos personales"],
+        "J'accepte": ["en": "I accept", "de": "Ich akzeptiere", "es": "Acepto"],
+        "Je refuse": ["en": "I decline", "de": "Ich lehne ab", "es": "Rechazo"],
+        "Fermer l'application sans accepter les conditions": ["en": "Close the application without accepting the terms", "de": "Die Anwendung schließen, ohne die Bedingungen zu akzeptieren", "es": "Cerrar la aplicación sin aceptar las condiciones"],
+        "Mémoriser votre accord et ouvrir l'application": ["en": "Remember your consent and open the application", "de": "Ihre Zustimmung speichern und die Anwendung öffnen", "es": "Recordar su consentimiento y abrir la aplicación"],
     ]
 }

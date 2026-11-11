@@ -2,7 +2,7 @@ import Foundation
 
 enum AppInfo {
     static let productName = "Easy IP-Switch"
-    static let version = "1.1.2"
+    static let version = "1.1.3"
     static let versionLabel = "v\(version)"
     static let websiteURL = URL(string: "https://www.angelivisions.com")!
     static let donationURL = URL(string: "https://www.paypal.com/donate/?hosted_button_id=WZBCQXPEHHDDC")!
