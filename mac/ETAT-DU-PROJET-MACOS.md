@@ -1560,3 +1560,115 @@ La release **`v1.1.2-macos`** contient :
 La signature reste ad-hoc : sur un Mac où le DMG a été téléchargé, Gatekeeper
 peut demander un clic droit → **Ouvrir**. La release Windows `v1.1.2` est
 publiée séparément, avec l’exécutable Windows 1.1.2.
+
+---
+
+## 23. Passe du 11 novembre 2026 — conditions d'utilisation, RGPD et release 1.1.3
+
+Cette section remplace la section 22 comme état courant.
+
+### 23.1 Résultat
+
+| Élément | État |
+|---|---|
+| Version macOS | **1.1.3** |
+| Version Windows | **1.1.3** |
+| Conditions d'utilisation | Fenêtre au premier lancement, texte défilant, quatre langues |
+| Consentement | `UserDefaults`, clé `EasyIPSwitch.termsAccepted` |
+| Refus | Application quittée, refus non mémorisé, question reposée au lancement suivant |
+| Raccourcis | **Entrée** accepte, **Échap** refuse, fermer la fenêtre équivaut à refuser |
+| Tests automatisés | **48 tests** Swift Testing, 6 suites, réussis |
+| DMG | Intel, Apple Silicon et universel en `1.1.3` |
+| Release GitHub | **`v1.1.3-macos`** — <https://github.com/danijay75/easy-ip-switch/releases/tag/v1.1.3-macos> |
+| Pull request | **#2**, fusionnée en squash sur `main` (`79381cc`) |
+| Site web | Dépôt `danijay75/angelivisions` mis à jour (`867dffb`) ; déploiement production à faire depuis Windows |
+
+### 23.2 Fichiers ajoutés ou modifiés
+
+Ajouts :
+
+```text
+Sources/EasyIPSwitch/TermsConsent.swift
+Sources/EasyIPSwitch/TermsContent.swift
+Sources/EasyIPSwitch/TermsView.swift
+Tests/EasyIPSwitchTests/TermsConsentTests.swift
+```
+
+Modifications principales :
+
+- `EasyIPSwitchApp.swift` : présentation des conditions avant la fenêtre
+  principale, interception de la fermeture, blocage du dialogue de don pendant
+  les conditions, réouverture de la fenêtre des conditions si besoin.
+- `LocalizationExtras.swift` : libellés du dialogue dans les quatre langues.
+- `AppInfo.swift`, `Info.plist`, `AppInfoTests.swift` : version `1.1.3`.
+- `README.md`, `PLAN-ACTION-MACOS.md` : version, conditions, tests et checklist.
+
+### 23.3 Comportement
+
+- La fenêtre mesure **760 × 600** points et s'adapte aux quatre langues sans
+  troncature.
+- Le sélecteur de drapeaux reste accessible dans la fenêtre des conditions ;
+  le texte et les boutons changent immédiatement.
+- **J'accepte** ou **Entrée** enregistre `EasyIPSwitch.termsAccepted = true` et
+  ouvre la fenêtre principale.
+- **Je refuse**, **Échap** ou la fermeture de la fenêtre quittent l'application
+  sans enregistrer d'accord.
+- Un **⌘Q** pendant les conditions quitte immédiatement, sans dialogue de don.
+- Après acceptation, la fenêtre ne réapparaît plus, y compris après relance.
+- Le dialogue de don à la fermeture de la fenêtre principale reste inchangé.
+
+### 23.4 Vérifications
+
+```text
+Test run with 48 tests in 6 suites passed.
+```
+
+- Compilation Intel x86_64, Apple Silicon arm64 et universelle.
+- `codesign --verify --deep --strict` valide sur les trois `.app`.
+- `hdiutil verify` valide sur les trois DMG.
+- DMG universel monté : application `1.1.3`, lien **Applications**, helper
+  **Installer sur le Bureau**, `Lisez-moi.txt`, QR code et quatre drapeaux.
+- Lancement de la version Intel confirmé via Rosetta 2.
+- Fenêtre des conditions vérifiée en français, anglais, allemand et espagnol.
+- Acceptation testée au clavier (**Entrée**) et à la souris.
+- Refus testé avec **Échap**, **Je refuse** et la fermeture de la fenêtre ;
+  aucune acceptation enregistrée dans les trois cas.
+- Relance après acceptation : la fenêtre des conditions ne réapparaît pas.
+- Fermeture de la fenêtre principale : le dialogue de don s'affiche toujours.
+
+### 23.5 SHA-256 des DMG
+
+```text
+d94a7657b575ba8198979cea1c8f44a2f8f4de6b3d19f2221adaa60b8034001b  Easy IP-Switch v1.1.3 (Intel).dmg
+ba556cffd66b70fff6d85ca736536b0eb33bc60f71ca0926b12cf47322dd9492  Easy IP-Switch v1.1.3 (Apple Silicon).dmg
+38b7cca1f9b07acd51cce4c3669889db174fa747c9f334d0127bf18ed51ca4c4  Easy IP-Switch v1.1.3 (Universelle).dmg
+```
+
+### 23.6 Publication
+
+La release **`v1.1.3-macos`** contient :
+
+- `Easy IP-Switch v1.1.3 (Intel).dmg` ;
+- `Easy IP-Switch v1.1.3 (Apple Silicon).dmg` ;
+- `Easy IP-Switch v1.1.3 (Universelle).dmg`.
+
+La signature reste ad-hoc : sur un Mac où le DMG a été téléchargé, Gatekeeper
+peut demander un clic droit → **Ouvrir**. La release Windows `v1.1.3` est
+publiée séparément.
+
+### 23.7 Site web
+
+Le dépôt `danijay75/angelivisions` est à jour :
+
+- `MAC_VERSION` et `MAC_APP_VERSION` passent en `1.1.3` ;
+- les DMG `easy-ip-switch-1.1.3-macos-intel.dmg` et
+  `easy-ip-switch-1.1.3-macos-apple-silicon.dmg` sont ajoutés aux
+  téléchargements ;
+- une mise en avant **Conditions et RGPD en un clic** et une étape
+  d'acceptation au premier lancement sont ajoutées dans les quatre langues ;
+- `npx tsc --noEmit` et `npm run build` passent sans erreur.
+
+Le **déploiement en production** reste à lancer depuis le poste Windows avec
+`.\.agent\deploy.ps1` : ce Mac ne dispose ni de la clé SSH ni de l'alias
+`angelivisions`. La copie locale du site dans pCloud est antérieure au
+refactoring multilingue du dépôt : il faut récupérer `main` avant de déployer.
