@@ -50,6 +50,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var didSetupWindow = false
     private var quitDialog: QuitDialogController?
+    private var termsWindow: TermsWindowController?
+    private var termsPending = false
+    private var termsPresented = false
+    private var termsDeclined = false
     private var terminationPending = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -79,14 +83,57 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             window.minSize = NSSize(width: 880, height: 620)
             window.title = AppInfo.productName + " " + AppInfo.versionLabel
             window.center()
+
+            self.presentTermsIfNeeded(for: window)
         }
     }
 
+    /// Presents the Terms of Use and GDPR notice before the main window when
+    /// the user has not accepted it yet. Declining quits the application
+    /// without remembering the refusal, so it is asked again next time.
+    private func presentTermsIfNeeded(for mainWindow: NSWindow) {
+        guard !termsPresented else { return }
+        guard !UserDefaultsTermsConsentStore().isAccepted() else { return }
+
+        termsPresented = true
+        termsPending = true
+        mainWindow.orderOut(nil)
+
+        let controller = TermsWindowController(
+            theme: theme ?? ThemeState(),
+            language: language ?? LanguageStore.shared
+        ) { [weak self] accepted in
+            guard let self else { return }
+            self.termsWindow = nil
+            self.termsPending = false
+            UserDefaultsTermsConsentStore().saveAccepted(accepted)
+
+            if accepted {
+                mainWindow.makeKeyAndOrderFront(nil)
+                NSApp.activate(ignoringOtherApps: true)
+            } else {
+                self.termsDeclined = true
+                NSApp.terminate(nil)
+            }
+        }
+
+        termsWindow = controller
+        controller.show()
+    }
+
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
+        // While the consent window is closing, `finish` already decides whether
+        // to open the main window or to quit.
+        return !termsPending
     }
 
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        // The consent gate must be able to close the application immediately,
+        // and quitting during the terms must not open the donation dialog.
+        if termsDeclined || termsPending {
+            return .terminateNow
+        }
+
         // Never block a logout, restart or shutdown with the donation dialog.
         if isSystemShutdown() {
             return .terminateNow
@@ -189,6 +236,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if termsPending {
+            termsWindow?.window?.makeKeyAndOrderFront(nil)
+            return true
+        }
         if !flag {
             showMainWindow()
         }

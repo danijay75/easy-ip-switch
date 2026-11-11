@@ -1,12 +1,12 @@
 # Easy IP-Switch — état du projet et passation vers macOS
 
-**Dernière mise à jour :** 2 novembre 2026 (soir)  
-**Version macOS actuelle :** 1.1.2 — release **v1.1.2-macos**  
-**Version Windows actuelle :** 1.1.2 — release **v1.1.2**  
+**Dernière mise à jour :** 11 novembre 2026  
+**Version macOS actuelle :** 1.1.3 — release **v1.1.3-macos**  
+**Version Windows actuelle :** 1.1.3 — release **v1.1.3**  
 **Projet local Windows :** `P:\Projets IA\Easy IPSwitch`  
 **Dépôt GitHub public :** <https://github.com/danijay75/easy-ip-switch> (licence MIT)  
 **Cible macOS :** macOS 12 (Monterey) ou plus récent, Intel x86_64 et Apple Silicon arm64  
-**Statut général :** Windows **1.1.2** est publié sur GitHub ; macOS **1.1.2** compile, se signe et se lance avec les quatre langues, le sélecteur de drapeaux, le QR code de don et la fenêtre de fermeture. **Les releases `v1.1.2` (Windows) et `v1.1.2-macos` (macOS) sont publiées.** Voir la section 22.
+**Statut général :** Windows **1.1.3** est publié sur GitHub ; macOS **1.1.3** compile, se signe et se lance avec les quatre langues, le sélecteur de drapeaux, l’acceptation des conditions d’utilisation et du RGPD, le QR code de don et la fenêtre de fermeture. **Les releases `v1.1.3` (Windows) et `v1.1.3-macos` (macOS) sont publiées.** Voir la section 23.
 
 ---
 
@@ -35,20 +35,20 @@ Le projet n'est pas un dépôt Git. Il vit sur pCloud, qui peut produire des fic
 | Élément | État |
 |---|---|
 | Application Windows v1.1.2 | Terminée et publiée sur GitHub |
-| Binaire Windows livré | `dist\easy ip-switch v1.1.2.exe` — 262 656 octets, version `1.1.2.0` |
-| Release Windows | GitHub `v1.1.2` avec l’exécutable et son SHA-256 |
-| Source macOS SwiftUI | 21 fichiers Swift (3 287 lignes) et 5 fichiers de tests (489 lignes) |
+| Binaire Windows livré | `dist\easy ip-switch v1.1.3.exe` — 282 624 octets, version `1.1.3.0` |
+| Release Windows | GitHub `v1.1.3` avec l’exécutable et son SHA-256 |
+| Source macOS SwiftUI | 24 fichiers Swift (4 079 lignes) et 6 fichiers de tests (703 lignes) |
 | Projet Swift Package | Présent : `mac/Package.swift`, cible de tests incluse |
 | Script de build macOS | Présent : `mac/scripts/build-mac.sh`, version lue dans `Info.plist`, DMG inclus |
-| Info.plist | Valide, version `1.1.2`, minimum macOS `12.0` |
+| Info.plist | Valide, version `1.1.3`, minimum macOS `12.0` |
 | Vérifications statiques | Réussies (voir section 7) |
 | Compilation Swift réelle | **Réussie** sur macOS 26.6.2 (Apple Silicon), Swift 6.3.3 |
 | Applications `.app` Intel / Apple Silicon | **Produites** en local, plus la version universelle ; zips et DMG dans `mac/dist` |
-| Tests automatisés | **42 tests** Swift Testing réussis |
-| Interface macOS | **Quatre langues** et sélecteur de drapeaux, release `v1.1.2-macos` publiée |
-| Prochaine action | Les deux releases 1.1.2 sont publiées ; prochaine étape éventuelle : validation sur Mac Intel physique et notarisation |
+| Tests automatisés | **48 tests** Swift Testing réussis |
+| Interface macOS | **Quatre langues**, sélecteur de drapeaux et conditions d’utilisation/RGPD, release `v1.1.3-macos` publiée |
+| Prochaine action | Les deux releases 1.1.3 sont publiées ; prochaine étape éventuelle : validation sur Mac Intel physique, écritures réseau réelles et notarisation |
 
-**Conclusion :** Windows 1.1.2 et macOS 1.1.2 sont publiés. Les langues, le sélecteur de drapeaux, le QR de don et les DMG macOS sont en place.
+**Conclusion :** Windows 1.1.3 et macOS 1.1.3 sont publiés. Les langues, le sélecteur de drapeaux, les conditions d’utilisation et le RGPD, le QR de don et les DMG macOS sont en place.
 
 ---
 

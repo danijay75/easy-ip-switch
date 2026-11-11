@@ -1,13 +1,14 @@
 # Easy IP-Switch pour macOS
 
 Portage natif SwiftUI de l'application Windows **Easy IP-Switch v1.1**.
-Version macOS : **v1.1.2**. Même interface, mêmes règles de validation,
+Version macOS : **v1.1.3**. Même interface, mêmes règles de validation,
 adaptées aux services réseau de macOS.
 
-> **État vérifié le 2 novembre 2026** (macOS 26.6.2, Apple Silicon) : compilation
+> **État vérifié le 11 novembre 2026** (macOS 26.6.2, Apple Silicon) : compilation
 > Intel, Apple Silicon et universelle réussie ; signature ad-hoc valide ; lancement
-> des versions ARM et Intel (via Rosetta 2) confirmé. Les tests visuels et les
-> écritures réseau réelles restent à exécuter. Voir `PLAN-ACTION-MACOS.md`.
+> des versions ARM et Intel (via Rosetta 2) confirmé. Conditions d'utilisation et
+> RGPD testées dans les quatre langues. Les écritures réseau réelles restent à
+> valider sur une interface de test. Voir `PLAN-ACTION-MACOS.md`.
 
 > **Reprise du projet** : pour l'état complet, les blocages, la bascule
 > d'OpenCode vers macOS, le prompt de reprise et la checklist de tests, lire
@@ -15,8 +16,8 @@ adaptées aux services réseau de macOS.
 
 ## Téléchargement
 
-Release macOS **v1.1.2** :
-<https://github.com/danijay75/easy-ip-switch/releases/tag/v1.1.2-macos>
+Release macOS **v1.1.3** :
+<https://github.com/danijay75/easy-ip-switch/releases/tag/v1.1.3-macos>
 
 Trois DMG sont disponibles : Intel, Apple Silicon et universel.
 
@@ -47,12 +48,12 @@ bash scripts/build-mac.sh
 Le script produit :
 
 ```
-mac/dist/Easy IP-Switch v1.1.2 (Intel).app
-mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).app
-mac/dist/Easy IP-Switch v1.1.2 (Intel).dmg
-mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).dmg
-mac/dist/Easy IP-Switch v1.1.2 (Intel).zip
-mac/dist/Easy IP-Switch v1.1.2 (Apple Silicon).zip
+mac/dist/Easy IP-Switch v1.1.3 (Intel).app
+mac/dist/Easy IP-Switch v1.1.3 (Apple Silicon).app
+mac/dist/Easy IP-Switch v1.1.3 (Intel).dmg
+mac/dist/Easy IP-Switch v1.1.3 (Apple Silicon).dmg
+mac/dist/Easy IP-Switch v1.1.3 (Intel).zip
+mac/dist/Easy IP-Switch v1.1.3 (Apple Silicon).zip
 ```
 
 Chaque application est signée en ad-hoc (`codesign --sign -`), ce qui est
@@ -68,7 +69,7 @@ Version universelle facultative (un seul binaire Intel + Apple Silicon) :
 bash scripts/build-mac.sh --universal
 ```
 
-Cela ajoute `Easy IP-Switch v1.1.2 (Universelle).app`, son zip et son DMG.
+Cela ajoute `Easy IP-Switch v1.1.3 (Universelle).app`, son zip et son DMG.
 
 ## Installer depuis un DMG
 
@@ -118,7 +119,7 @@ message, car la signature ad-hoc ne remplace pas une signature Developer ID.
 Utiliser **clic droit → Ouvrir**, ou retirer l'attribut de quarantaine :
 
 ```bash
-xattr -dr com.apple.quarantine "Easy IP-Switch v1.1.2 (Apple Silicon).app"
+xattr -dr com.apple.quarantine "Easy IP-Switch v1.1.3 (Apple Silicon).app"
 ```
 
 ## Langues
@@ -133,6 +134,22 @@ L'interface est disponible en **français, anglais, allemand et espagnol**.
   script de build.
 - Toutes les chaînes visibles utilisent le catalogue `LocalizationCatalog`
   (traductions Windows) et les compléments macOS de `LocalizationExtras`.
+
+## Conditions d'utilisation et RGPD
+
+Au premier lancement, une fenêtre présente les conditions d'utilisation et la
+notice RGPD dans la langue en cours :
+
+- titre **Conditions d'utilisation et RGPD** avec sélecteur de drapeaux ;
+- texte défilant : licence MIT, responsabilité d'utilisation, absence de
+  collecte, stockage local, liens externes ;
+- boutons **Je refuse** et **J'accepte**, avec Échap et Entrée comme raccourcis ;
+- fermer la fenêtre équivaut à refuser.
+
+L'acceptation est mémorisée dans `UserDefaults`
+(`EasyIPSwitch.termsAccepted`). Un refus n'est pas mémorisé : l'application
+se ferme et la question revient au lancement suivant. Une fois acceptée, la
+fenêtre ne réapparaît plus, y compris après une mise à jour.
 
 ## Fermeture et don
 
@@ -169,7 +186,8 @@ fonctionne pour développer l'interface et tester les appels réseau.
 ## Tests automatisés
 
 Le projet contient une cible `EasyIPSwitchTests` (Swift Testing) qui couvre la
-validation IPv4, le modèle de carte réseau et l'analyse des résultats de ping.
+validation IPv4, le modèle de carte réseau, l'analyse des résultats de ping, la
+localisation et le consentement aux conditions d'utilisation. **48 tests**, 6 suites.
 
 Depuis le dossier `mac` :
 
@@ -190,9 +208,9 @@ Developer et un certificat **Developer ID Application** :
 ```bash
 codesign --force --deep --options runtime \
   --sign "Developer ID Application: VOTRE NOM (TEAMID)" \
-  "Easy IP-Switch v1.1.2 (Apple Silicon).app"
+  "Easy IP-Switch v1.1.3 (Apple Silicon).app"
 
-ditto -c -k --keepParent "Easy IP-Switch v1.1.2 (Apple Silicon).app" archive.zip
+ditto -c -k --keepParent "Easy IP-Switch v1.1.3 (Apple Silicon).app" archive.zip
 
 xcrun notarytool submit archive.zip \
   --apple-id "votre@compte" \
@@ -200,7 +218,7 @@ xcrun notarytool submit archive.zip \
   --password "mot-de-passe-application" \
   --wait
 
-xcrun stapler staple "Easy IP-Switch v1.1.2 (Apple Silicon).app"
+xcrun stapler staple "Easy IP-Switch v1.1.3 (Apple Silicon).app"
 ```
 
 Répéter pour la version Intel, ou notariser une version universelle.
@@ -271,8 +289,11 @@ mac/
 │   ├── build-mac.sh              # Intel + Apple Silicon (+ universelle)
 │   └── make-icns.sh              # PNG → .icns via sips/iconutil
 └── Sources/EasyIPSwitch/
-    ├── EasyIPSwitchApp.swift     # point d'entrée, fenêtre, confirmation de fermeture
-    ├── AppInfo.swift             # nom, version v1.1.2, liens
+    ├── EasyIPSwitchApp.swift     # point d'entrée, fenêtre, conditions, fermeture
+    ├── AppInfo.swift             # nom, version v1.1.3, liens
+    ├── TermsConsent.swift        # consentement mémorisé dans UserDefaults
+    ├── TermsContent.swift        # textes des conditions dans les 4 langues
+    ├── TermsView.swift           # fenêtre des conditions et RGPD
     ├── AppTheme.swift            # palettes clair/sombre
     ├── Models.swift              # modèles et messages
     ├── IPv4.swift                # validation IPv4
@@ -294,7 +315,11 @@ mac/
 
 À faire lors du premier lancement sur le Mac (impossible depuis Windows) :
 
-- [ ] L'en-tête affiche **Easy IP-Switch v1.1.2**.
+- [ ] Au premier lancement, la fenêtre **Conditions d'utilisation et RGPD** s'affiche.
+- [ ] **J'accepte** ouvre l'application et l'accord est mémorisé.
+- [ ] **Je refuse**, Échap ou la fermeture de la fenêtre quittent l'application.
+- [ ] Après acceptation, la fenêtre ne réapparaît plus au lancement suivant.
+- [ ] L'en-tête affiche **Easy IP-Switch v1.1.3**.
 - [ ] Les cartes Wi-Fi/Ethernet apparaissent avec leur adresse actuelle.
 - [ ] Chaque carte affiche aussi le nom matériel et le périphérique (ex. « Wi-Fi — en0 »).
 - [ ] Le passage DHCP → adresse fixe demande l'autorisation admin et s'applique.
