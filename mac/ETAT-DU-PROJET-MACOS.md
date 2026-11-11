@@ -1601,8 +1601,9 @@ Modifications principales :
   les conditions, réouverture de la fenêtre des conditions si besoin.
 - `LocalizationExtras.swift` : libellés du dialogue dans les quatre langues.
 - `LanguageSelectorView.swift` : drapeaux réduits à la hauteur du texte,
-  code de langue à **13 pt** et noms du menu à **14 pt** ; les images du menu
-  sont pré-redimensionnées pour rester alignées.
+  code de langue à **13 pt** et noms du menu à **14 pt** ; toutes les images
+  (en-tête et menu) sont pré-redimensionnées en **15 × 10**, car AppKit les
+  dessinait sinon à leur taille native.
 - `AppInfo.swift`, `Info.plist`, `AppInfoTests.swift` : version `1.1.3`.
 - `README.md`, `PLAN-ACTION-MACOS.md` : version, conditions, tests et checklist.
 
@@ -1642,9 +1643,9 @@ Test run with 48 tests in 6 suites passed.
 ### 23.5 SHA-256 des DMG
 
 ```text
-03f50b6849e7dcdcf3f0a15aa7ff348d263468f8d022c46f9d9b7ad1089bf204  Easy IP-Switch v1.1.3 (Intel).dmg
-99e62b9a5297176d691e5de94d6420dea86d52694269316bb5db1c1013b66189  Easy IP-Switch v1.1.3 (Apple Silicon).dmg
-0dc24cbb3cb7612c4426e8a5bbba9de703ab96dfb3288f3c3760ed3dbde153f5  Easy IP-Switch v1.1.3 (Universelle).dmg
+7b32e8ed6fcadb18864cc74314fbcc594514e51059db2d631b109a878a0b3cec  Easy IP-Switch v1.1.3 (Intel).dmg
+42f6edcb01d3953d05b251baeb4727639f2db9a2a0a7909d09b4f1d446785bf7  Easy IP-Switch v1.1.3 (Apple Silicon).dmg
+cfcf39da347c0c030ae24ec4eb3e86a8a9453252fac9a0d4460840f7cc8ceebe  Easy IP-Switch v1.1.3 (Universelle).dmg
 ```
 
 ### 23.6 Publication

@@ -54,7 +54,7 @@ struct LanguageSelectorView: View {
                     language.set(item)
                 } label: {
                     HStack(spacing: 8) {
-                        menuFlag(item)
+                        sizedFlag(item)
                         Text(item.displayName)
                             .font(.system(size: 14, weight: language.current == item ? .semibold : .regular))
                         if language.current == item {
@@ -66,7 +66,7 @@ struct LanguageSelectorView: View {
             }
         } label: {
             HStack(spacing: 6) {
-                flag(language.current, width: 15, height: 10)
+                sizedFlag(language.current)
                 Text(language.current.codeLabel)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(theme.palette.text)
@@ -95,31 +95,12 @@ struct LanguageSelectorView: View {
     }
 
     @ViewBuilder
-    private func menuFlag(_ language: AppLanguage) -> some View {
+    private func sizedFlag(_ language: AppLanguage) -> some View {
         if let image = FlagImage.image(
             for: language,
             size: NSSize(width: 15, height: 10)
         ) {
             Image(nsImage: image)
-                .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 2, style: .continuous)
-                        .stroke(Color.black.opacity(0.15), lineWidth: 0.5)
-                )
-        } else {
-            Text(language.codeLabel)
-                .font(.system(size: 9, weight: .bold))
-        }
-    }
-
-    @ViewBuilder
-    private func flag(_ language: AppLanguage, width: CGFloat, height: CGFloat) -> some View {
-        if let image = FlagImage.image(for: language) {
-            Image(nsImage: image)
-                .resizable()
-                .interpolation(.high)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: width, height: height)
                 .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: 2, style: .continuous)
