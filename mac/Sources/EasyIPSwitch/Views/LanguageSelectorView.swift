@@ -23,6 +23,24 @@ enum FlagImage {
         }
         return nil
     }
+
+    /// Returns a copy drawn at the requested point size. The menu renders an
+    /// `NSImage` at its intrinsic size, so the source flag must be pre-scaled
+    /// to stay aligned with the label text.
+    static func image(for language: AppLanguage, size: NSSize) -> NSImage? {
+        guard let source = image(for: language) else { return nil }
+        let target = NSImage(size: size)
+        target.lockFocus()
+        NSGraphicsContext.current?.imageInterpolation = .high
+        source.draw(
+            in: NSRect(origin: .zero, size: size),
+            from: NSRect(origin: .zero, size: source.size),
+            operation: .copy,
+            fraction: 1
+        )
+        target.unlockFocus()
+        return target
+    }
 }
 
 struct LanguageSelectorView: View {
@@ -36,9 +54,9 @@ struct LanguageSelectorView: View {
                     language.set(item)
                 } label: {
                     HStack(spacing: 8) {
-                        flag(item, width: 20, height: 13)
+                        menuFlag(item)
                         Text(item.displayName)
-                            .font(.system(size: 12, weight: language.current == item ? .semibold : .regular))
+                            .font(.system(size: 14, weight: language.current == item ? .semibold : .regular))
                         if language.current == item {
                             Image(systemName: "checkmark")
                                 .font(.system(size: 10, weight: .bold))
@@ -48,9 +66,9 @@ struct LanguageSelectorView: View {
             }
         } label: {
             HStack(spacing: 6) {
-                flag(language.current, width: 24, height: 16)
+                flag(language.current, width: 15, height: 10)
                 Text(language.current.codeLabel)
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(theme.palette.text)
                 Image(systemName: "chevron.down")
                     .font(.system(size: 9, weight: .semibold))
@@ -74,6 +92,24 @@ struct LanguageSelectorView: View {
         .help(language.t("Changer la langue de l'application"))
         .accessibilityLabel(language.t("Langue"))
         .accessibilityHint(language.t("Changer la langue de l'application"))
+    }
+
+    @ViewBuilder
+    private func menuFlag(_ language: AppLanguage) -> some View {
+        if let image = FlagImage.image(
+            for: language,
+            size: NSSize(width: 15, height: 10)
+        ) {
+            Image(nsImage: image)
+                .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 2, style: .continuous)
+                        .stroke(Color.black.opacity(0.15), lineWidth: 0.5)
+                )
+        } else {
+            Text(language.codeLabel)
+                .font(.system(size: 9, weight: .bold))
+        }
     }
 
     @ViewBuilder
