@@ -1,6 +1,18 @@
 param(
     [switch]$Preview,
-    [string]$OutputPath
+    [string]$OutputPath,
+    [switch]$Sign,
+    [ValidateSet('Azure', 'Pfx', 'Store')]
+    [string]$SignMode = 'Azure',
+    [string]$PfxPath,
+    [string]$PfxPassword,
+    [string]$Thumbprint,
+    [string]$TimestampUrl = 'http://timestamp.acs.microsoft.com',
+    [string]$AzureDlib,
+    [string]$AzureMetadata,
+    [switch]$Package,
+    [string]$WebsiteDirectory,
+    [string]$WebsiteReleaseJson
 )
 
 $ErrorActionPreference = 'Stop'
@@ -109,6 +121,57 @@ if (-not (Test-Path -LiteralPath $output -PathType Leaf)) {
     throw "Le fichier de sortie est introuvable : $output"
 }
 
+if ($Sign) {
+    if ($Preview) {
+        throw "La signature n'est pas prise en charge pour l'apercu."
+    }
+
+    $signScript = Join-Path $root 'sign.ps1'
+    if (-not (Test-Path -LiteralPath $signScript -PathType Leaf)) {
+        throw "Script de signature introuvable : $signScript"
+    }
+
+    $signParams = @{
+        Path = $output
+        Mode = $SignMode
+        TimestampUrl = $TimestampUrl
+    }
+    if (-not [string]::IsNullOrWhiteSpace($PfxPath)) { $signParams.PfxPath = $PfxPath }
+    if (-not [string]::IsNullOrEmpty($PfxPassword)) { $signParams.PfxPassword = $PfxPassword }
+    if (-not [string]::IsNullOrWhiteSpace($Thumbprint)) { $signParams.Thumbprint = $Thumbprint }
+    if (-not [string]::IsNullOrWhiteSpace($AzureDlib)) { $signParams.AzureDlib = $AzureDlib }
+    if (-not [string]::IsNullOrWhiteSpace($AzureMetadata)) { $signParams.AzureMetadata = $AzureMetadata }
+
+    & $signScript @signParams
+}
+
+if ($Package) {
+    if (-not $Sign) {
+        Write-Warning "Le paquet est genere sans signature de code."
+    }
+
+    $packageScript = Join-Path $root 'package-windows.ps1'
+    if (-not (Test-Path -LiteralPath $packageScript -PathType Leaf)) {
+        throw "Script de paquet introuvable : $packageScript"
+    }
+
+    $packageParams = @{
+        ExePath = $output
+        Version = $version
+        OutputDirectory = $dist
+    }
+    if (-not [string]::IsNullOrWhiteSpace($WebsiteDirectory)) {
+        $packageParams.WebsiteDirectory = $WebsiteDirectory
+    }
+    if (-not [string]::IsNullOrWhiteSpace($WebsiteReleaseJson)) {
+        $packageParams.WebsiteReleaseJson = $WebsiteReleaseJson
+    }
+
+    & $packageScript @packageParams
+}
+
 $size = [math]::Round((Get-Item $output).Length / 1KB)
+$signature = Get-AuthenticodeSignature -LiteralPath $output
 Write-Host ""
 Write-Host "Compilation reussie : $output ($size Ko)"
+Write-Host "Signature : $($signature.Status)"

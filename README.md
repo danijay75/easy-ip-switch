@@ -47,6 +47,26 @@ Le binaire est produit dans :
 dist/easy ip-switch v1.1.3.exe
 ```
 
+## Signature et paquet Windows
+
+La version 1.1.3 est encore non signée : SmartScreen peut afficher un
+avertissement. Le pipeline de signature est prêt dans `sign.ps1` et
+`package-windows.ps1`.
+
+Signature Azure Artifact Signing (recommandée) :
+
+```powershell
+.\build.ps1 -Sign -SignMode Azure `
+  -AzureDlib "C:\outils\Azure.CodeSigning.Dlib.dll" `
+  -AzureMetadata ".\packaging\windows\artifact-signing-metadata.json" `
+  -Package
+```
+
+Le paquet `dist/easy-ip-switch-1.1.3-windows.zip` contient l'exécutable,
+le README bilingue, la licence et les empreintes SHA-256. Les détails de
+mise en place et la procédure de remplacement sont dans
+[`docs/SIGNATURE-WINDOWS.md`](docs/SIGNATURE-WINDOWS.md).
+
 ## Tests Windows
 
 ```powershell

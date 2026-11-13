@@ -1,0 +1,120 @@
+Easy IP-Switch {{VERSION}} — Windows
+Angeli Visions
+https://angelivisions.com/easy-ip-switch
+
+Contenu / Contents / Inhalt / Contenido:
+- {{EXE_NAME}}
+- README.txt
+- LICENSE.txt
+- SHA256SUMS.txt
+
+======================================================================
+FRANÇAIS
+======================================================================
+L'application n'est pas encore signée avec un certificat commercial.
+Windows peut afficher « Windows a protégé votre PC » ou « Éditeur
+inconnu ». Ce n'est pas un virus : le fichier est compilé par Angeli
+Visions et contrôlé avant publication.
+
+Pour exécuter :
+1. Vérifiez l'empreinte SHA-256 ci-dessous.
+2. Si SmartScreen apparaît : « Informations complémentaires », puis
+   « Exécuter quand même ».
+3. Acceptez la demande d'élévation (UAC) : elle est nécessaire pour
+   modifier une carte réseau.
+
+Empreinte SHA-256 de {{EXE_NAME}} :
+{{SHA256}}
+
+Vérification dans PowerShell :
+Get-FileHash .\{{EXE_NAME}} -Algorithm SHA256
+
+Téléchargez uniquement depuis :
+- https://angelivisions.com/easy-ip-switch
+- https://github.com/danijay75/easy-ip-switch/releases/tag/v{{VERSION}}
+
+Ne lancez jamais une copie provenant d'un autre site sans vérifier son
+empreinte. Le paquet est distribué sous licence MIT, sans garantie.
+
+======================================================================
+ENGLISH
+======================================================================
+The app is not yet signed with a commercial certificate. Windows may
+show “Windows protected your PC” or “Unknown publisher”. It is not a
+virus: the file is built by Angeli Visions and checked before release.
+
+To run it:
+1. Verify the SHA-256 hash below.
+2. If SmartScreen appears: “More info”, then “Run anyway”.
+3. Accept the elevation prompt (UAC): it is required to change a
+   network adapter.
+
+SHA-256 hash of {{EXE_NAME}}:
+{{SHA256}}
+
+PowerShell verification:
+Get-FileHash .\{{EXE_NAME}} -Algorithm SHA256
+
+Download only from:
+- https://angelivisions.com/easy-ip-switch
+- https://github.com/danijay75/easy-ip-switch/releases/tag/v{{VERSION}}
+
+Never run a copy from another site without verifying its hash. This
+package is distributed under the MIT license, without warranty.
+
+======================================================================
+DEUTSCH
+======================================================================
+Die App ist noch nicht mit einem kommerziellen Zertifikat signiert.
+Windows kann „Windows hat Ihren PC geschützt“ oder „Unbekannter
+Herausgeber“ anzeigen. Es ist kein Virus: Die Datei wird von Angeli
+Visions erstellt und vor der Veröffentlichung geprüft.
+
+Zum Ausführen:
+1. Prüfen Sie den SHA-256-Hash unten.
+2. Wenn SmartScreen erscheint: „Weitere Informationen“, dann
+   „Trotzdem ausführen“.
+3. Bestätigen Sie die Administratorabfrage (UAC): Sie ist nötig, um
+   einen Netzwerkadapter zu ändern.
+
+SHA-256-Hash von {{EXE_NAME}}:
+{{SHA256}}
+
+PowerShell-Prüfung:
+Get-FileHash .\{{EXE_NAME}} -Algorithm SHA256
+
+Nur hier herunterladen:
+- https://angelivisions.com/easy-ip-switch
+- https://github.com/danijay75/easy-ip-switch/releases/tag/v{{VERSION}}
+
+Führen Sie niemals eine Kopie von einer anderen Website aus, ohne den
+Hash zu prüfen. Dieses Paket wird unter der MIT-Lizenz ohne Gewähr
+verteilt.
+
+======================================================================
+ESPAÑOL
+======================================================================
+La aplicación aún no está firmada con un certificado comercial.
+Windows puede mostrar «Windows protegió tu PC» o «Editor desconocido».
+No es un virus: el archivo lo compila Angeli Visions y se revisa antes
+de publicarse.
+
+Para ejecutarla:
+1. Verifica la huella SHA-256 de abajo.
+2. Si aparece SmartScreen: «Más información» y luego «Ejecutar de todos
+   modos».
+3. Acepta la solicitud de elevación (UAC): es necesaria para modificar
+   un adaptador de red.
+
+Huella SHA-256 de {{EXE_NAME}}:
+{{SHA256}}
+
+Verificación en PowerShell:
+Get-FileHash .\{{EXE_NAME}} -Algorithm SHA256
+
+Descarga solo desde:
+- https://angelivisions.com/easy-ip-switch
+- https://github.com/danijay75/easy-ip-switch/releases/tag/v{{VERSION}}
+
+No ejecutes nunca una copia de otro sitio sin verificar su huella. Este
+paquete se distribuye bajo la licencia MIT, sin garantía.
