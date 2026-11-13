@@ -1,0 +1,120 @@
+Easy IP-Switch {{VERSION}} — Windows
+Angeli Visions
+https://angelivisions.com/easy-ip-switch
+
+Contenu / Contents / Inhalt / Contenido:
+- {{EXE_NAME}}
+- README.txt
+- LICENSE.txt
+- SHA256SUMS.txt
+
+======================================================================
+FRANÇAIS
+======================================================================
+Cette version est signée avec un certificat de signature de code au nom
+d'Angeli Visions. Windows doit afficher « Angeli Visions » comme
+éditeur. Si un autre nom apparaît, n'exécutez pas le fichier.
+
+Pour exécuter :
+1. Vérifiez l'empreinte SHA-256 ci-dessous.
+2. Vérifiez la signature (facultatif) avec la commande PowerShell
+   indiquée plus bas.
+3. Acceptez la demande d'élévation (UAC) : elle est nécessaire pour
+   modifier une carte réseau.
+
+Empreinte SHA-256 de {{EXE_NAME}} :
+{{SHA256}}
+
+Vérification dans PowerShell :
+Get-FileHash .\{{EXE_NAME}} -Algorithm SHA256
+Get-AuthenticodeSignature .\{{EXE_NAME}} | Format-List Status, SignerCertificate
+
+Téléchargez uniquement depuis :
+- https://angelivisions.com/easy-ip-switch
+- https://github.com/danijay75/easy-ip-switch/releases/tag/v{{VERSION}}
+
+Ne lancez jamais une copie provenant d'un autre site sans vérifier son
+empreinte. Le paquet est distribué sous licence MIT, sans garantie.
+
+======================================================================
+ENGLISH
+======================================================================
+This release is signed with a code-signing certificate issued to
+Angeli Visions. Windows should display “Angeli Visions” as the
+publisher. If another name appears, do not run the file.
+
+To run it:
+1. Verify the SHA-256 hash below.
+2. Optionally verify the signature with the PowerShell command below.
+3. Accept the elevation prompt (UAC): it is required to change a
+   network adapter.
+
+SHA-256 hash of {{EXE_NAME}}:
+{{SHA256}}
+
+PowerShell verification:
+Get-FileHash .\{{EXE_NAME}} -Algorithm SHA256
+Get-AuthenticodeSignature .\{{EXE_NAME}} | Format-List Status, SignerCertificate
+
+Download only from:
+- https://angelivisions.com/easy-ip-switch
+- https://github.com/danijay75/easy-ip-switch/releases/tag/v{{VERSION}}
+
+Never run a copy from another site without verifying its hash. This
+package is distributed under the MIT license, without warranty.
+
+======================================================================
+DEUTSCH
+======================================================================
+Diese Version ist mit einem Codesignatur-Zertifikat auf den Namen
+Angeli Visions signiert. Windows sollte „Angeli Visions“ als
+Herausgeber anzeigen. Erscheint ein anderer Name, führen Sie die Datei
+nicht aus.
+
+Zum Ausführen:
+1. Prüfen Sie den SHA-256-Hash unten.
+2. Prüfen Sie optional die Signatur mit dem PowerShell-Befehl unten.
+3. Bestätigen Sie die Administratorabfrage (UAC): Sie ist nötig, um
+   einen Netzwerkadapter zu ändern.
+
+SHA-256-Hash von {{EXE_NAME}}:
+{{SHA256}}
+
+PowerShell-Prüfung:
+Get-FileHash .\{{EXE_NAME}} -Algorithm SHA256
+Get-AuthenticodeSignature .\{{EXE_NAME}} | Format-List Status, SignerCertificate
+
+Nur hier herunterladen:
+- https://angelivisions.com/easy-ip-switch
+- https://github.com/danijay75/easy-ip-switch/releases/tag/v{{VERSION}}
+
+Führen Sie niemals eine Kopie von einer anderen Website aus, ohne den
+Hash zu prüfen. Dieses Paket wird unter der MIT-Lizenz ohne Gewähr
+verteilt.
+
+======================================================================
+ESPAÑOL
+======================================================================
+Esta versión está firmada con un certificado de firma de código a
+nombre de Angeli Visions. Windows debe mostrar «Angeli Visions» como
+editor. Si aparece otro nombre, no ejecutes el archivo.
+
+Para ejecutarla:
+1. Verifica la huella SHA-256 de abajo.
+2. Verifica opcionalmente la firma con el comando de PowerShell de abajo.
+3. Acepta la solicitud de elevación (UAC): es necesaria para modificar
+   un adaptador de red.
+
+Huella SHA-256 de {{EXE_NAME}}:
+{{SHA256}}
+
+Verificación en PowerShell:
+Get-FileHash .\{{EXE_NAME}} -Algorithm SHA256
+Get-AuthenticodeSignature .\{{EXE_NAME}} | Format-List Status, SignerCertificate
+
+Descarga solo desde:
+- https://angelivisions.com/easy-ip-switch
+- https://github.com/danijay75/easy-ip-switch/releases/tag/v{{VERSION}}
+
+No ejecutes nunca una copia de otro sitio sin verificar su huella. Este
+paquete se distribuye bajo la licencia MIT, sin garantía.

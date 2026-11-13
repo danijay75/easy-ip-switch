@@ -17,18 +17,23 @@ $root = $PSScriptRoot
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
     $OutputDirectory = Join-Path $root 'dist'
 }
-if ([string]::IsNullOrWhiteSpace($TemplatePath)) {
-    $TemplatePath = Join-Path $root 'packaging\windows\README.txt.template'
-}
 
 if (-not (Test-Path -LiteralPath $ExePath -PathType Leaf)) {
     throw "Executable introuvable : $ExePath"
+}
+
+$exeItem = Get-Item -LiteralPath $ExePath
+$signature = Get-AuthenticodeSignature -LiteralPath $exeItem.FullName
+$isSigned = $signature.Status -eq 'Valid'
+
+if ([string]::IsNullOrWhiteSpace($TemplatePath)) {
+    $templateName = if ($isSigned) { 'README-signed.txt.template' } else { 'README.txt.template' }
+    $TemplatePath = Join-Path $root "packaging\windows\$templateName"
 }
 if (-not (Test-Path -LiteralPath $TemplatePath -PathType Leaf)) {
     throw "Modele README introuvable : $TemplatePath"
 }
 
-$exeItem = Get-Item -LiteralPath $ExePath
 $sha256 = (Get-FileHash -LiteralPath $exeItem.FullName -Algorithm SHA256).Hash
 $exeName = "easy-ip-switch-$Version-windows.exe"
 $zipName = "easy-ip-switch-$Version-windows.zip"
@@ -93,6 +98,8 @@ if (-not [string]::IsNullOrWhiteSpace($WebsiteReleaseJson)) {
 
 Write-Host ""
 Write-Host "Paquet Windows genere : $zipPath" -ForegroundColor Green
+Write-Host "Modele README : $(Split-Path -Leaf $TemplatePath)"
+Write-Host "Signature : $($signature.Status)"
 Write-Host "SHA-256 exe : $sha256"
 Write-Host "SHA-256 zip : $zipSha256"
 Write-Host "Empreintes  : $checksumsPath"

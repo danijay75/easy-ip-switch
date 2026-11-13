@@ -52,7 +52,8 @@ Microsoft entièrement géré :
 ### Métadonnées de signature
 
 Créer un fichier `packaging/windows/artifact-signing-metadata.json` à
-partir de l'exemple :
+partir de l'exemple
+[`artifact-signing-metadata.example.json`](../packaging/windows/artifact-signing-metadata.example.json) :
 
 ```json
 {

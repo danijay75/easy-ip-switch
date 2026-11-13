@@ -1,0 +1,6 @@
+{
+  "Endpoint": "https://weu.codesigning.azure.net/",
+  "CodeSigningAccountName": "votre-compte-artifact-signing",
+  "CertificateProfileName": "easy-ip-switch",
+  "ExcludeCredentials": []
+}
